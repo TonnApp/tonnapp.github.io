@@ -15,6 +15,7 @@ L = {
   "h1": "TonnYog — yoga app that works offline",
   "lead": "Practice yoga at home or on the road. Ready-made 30-day programs, voice guidance, a library of poses and a progress tracker — no account and no internet required.",
   "cta": "Get it on Google Play",
+  "shots_h": "TonnYog yoga app screenshots", "alts": ["TonnYog home screen with weekly progress and current workout","30-day yoga programs and quick workouts in TonnYog","Voice-guided yoga practice: Butterfly Pose with countdown","Yoga progress tracker with activity calendar","Routine builder: create your own yoga program","TonnYog settings: voice guidance, pauses and 9 languages"],
   "feat_h": "What you get in the TonnYog yoga app",
   "feats": [
    ("30-day yoga programs", "Step-by-step courses for beginners and experienced practitioners. Start a program and follow it day by day."),
@@ -46,6 +47,7 @@ L = {
   "h1": "TonnYog — йога, яка працює без інтернету",
   "lead": "Займайтеся йогою вдома чи в дорозі. Готові програми на 30 днів, голосовий супровід, довідник асан і трекер прогресу — без акаунта й без інтернету.",
   "cta": "Завантажити в Google Play",
+  "shots_h": "Скриншоти додатка для йоги TonnYog", "alts": ["Головний екран TonnYog: прогрес тижня й поточне тренування","Програми йоги на 30 днів у TonnYog","Заняття йогою з озвученням: поза метелика та відлік","Трекер прогресу йоги з календарем активності","Конструктор програм: власна програма йоги","Налаштування TonnYog: озвучення, пауза та 9 мов"],
   "feat_h": "Що є в додатку для йоги TonnYog",
   "feats": [
    ("Програми йоги на 30 днів", "Покрокові курси для початківців і досвідчених. Запустіть програму й виконуйте її день за днем."),
@@ -80,13 +82,14 @@ a{color:var(--g)}.w{max-width:960px;margin:0 auto;padding:0 16px}
 header{display:flex;justify-content:space-between;align-items:center;padding:14px 0}header b{font-size:20px}
 .hero{display:grid;gap:28px;align-items:center;padding:24px 0 40px}@media(min-width:760px){.hero{grid-template-columns:1.1fr .9fr}}
 h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 14px}h2{font-size:26px;margin:44px 0 16px}
-.hero img{width:100%;height:auto;border-radius:20px}
+.hero img{width:100%;height:auto;border-radius:20px}.hero img.h{max-width:420px;justify-self:center}
 .btn{display:inline-block;background:var(--g);color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;text-decoration:none}
 @media(prefers-color-scheme:dark){.btn{color:#10200f}}
 .grid{display:grid;gap:14px}@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
 .card{background:var(--c);border:1px solid var(--line);border-radius:14px;padding:16px}.card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--m)}
 .band{background:var(--l);border-radius:16px;padding:20px;margin-top:40px}
 details{background:var(--c);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}
+.shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots img{height:440px;width:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;flex:none}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
@@ -121,13 +124,16 @@ def index(d):
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (app, faq))
     h = head(d, d["title"], d["desc"], canon, alts, ld + f'<meta name="keywords" content="{d["kw"]}">')
     feats = "".join(f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["feats"])
+    pre = "en" if d["lang"] == "en" else "uk"
+    shots = "".join(f'<img src="{SITE}/img/shots/{pre}-{i}.jpg" width="203" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in d["faq"])
     other_href = f"{SITE}/uk/tonnyog/" if d["lang"] == "en" else f"{SITE}/tonnyog/"
     return h + f"""
 <header><b><a href="{SITE}/{'' if d['lang']=='en' else 'uk/'}" style="text-decoration:none">Tonn</a> / TonnYog</b><a href="{other_href}" hreflang="{other['lang']}">{d['other']}</a></header>
 <main><section class="hero"><div><h1>{d['h1']}</h1><p>{d['lead']}</p>
 <p><a class="btn" href="{PLAY}" rel="noopener">{d['cta']}</a></p></div>
-<img src="{SITE}/img/hero.jpg" width="1111" height="752" alt="TonnYog yoga app character" fetchpriority="high"></section>
+<img src="{SITE}/img/hero.jpg" width="760" height="760" alt="TonnYog yoga instructor character" fetchpriority="high" class="h"></section>
+<h2>{d['shots_h']}</h2><div class="shots">{shots}</div>
 <h2>{d['feat_h']}</h2><div class="grid">{feats}</div>
 <div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p><a class="btn" href="{PLAY}" rel="noopener">{d['cta']}</a></p></div>
 <h2>{d['faq_h']}</h2>{faqs}</main>
