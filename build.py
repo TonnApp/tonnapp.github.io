@@ -180,7 +180,8 @@ BLOG_T = {
         "lead": "Практичні поради про йогу, розтяжку й дихання.", "min": "хв читання", "related": "Інші статті",
         "tryh": "Практикуйте з додатком", "get": "Завантажити в Google Play", "soon": "у розробці", "tryy": "А поки що спробуйте пози в TonnYog", "pub": "Опубліковано"},
 }
-APP_NAMES = {"tonnyog": "TonnYog", "tonnstretch": "TonnStretch", "tonncalm": "TonnCalm"}
+APP_NAMES = {"tonnyog": "TonnYog", "tonnstretch": "TonnStretch", "tonncalm": "TonnCalm", "tonnpower": "TonnPower", "tonnfit": "TonnFit",
+             "tonnworkout": "TonnWorkout", "tonnaim": "TonnAIM", "tonnprosport": "TonnProSport"}
 
 def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
 def url_post(lang, slug): return f"{SITE}/{pre(lang)}blog/{slug}/"
@@ -229,7 +230,9 @@ def blog_post(lang, p):
     else:
         cta = (f'<h2>{bt["tryh"]}</h2><p><a href="{url_app(lang, app)}"><strong>{name}</strong></a> — {bt["soon"]}.</p>'
                f'<p>{bt["tryy"]}:</p><p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a></p>')
-    rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in POSTS if q["slug"] != p["slug"])
+    same = [q for q in POSTS if q["slug"] != p["slug"] and q["app"] == p["app"]]
+    rest = [q for q in POSTS if q["slug"] != p["slug"] and q["app"] != p["app"]]
+    rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in (same + rest)[:5])
     return head(lang, d["title"], d["desc"], urlfn(lang), alts, ld, img) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
         f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a></p><h1>{d["title"]}</h1>' \

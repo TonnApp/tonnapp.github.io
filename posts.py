@@ -333,3 +333,8 @@ POSTS = [
  },
 },
 ]
+
+
+from posts_a import MORE as _A
+from posts_b import MORE as _B
+POSTS += _A + _B
