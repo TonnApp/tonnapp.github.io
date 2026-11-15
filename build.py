@@ -198,14 +198,14 @@ def render_body(lang, html):
         f, alt = m.group(1), m.group(2)
         if f == "practice":
             return f'<figure class="phone"><img src="{SITE}/img/blog/practice-{lang}.jpg" width="320" height="693" loading="lazy" alt="{alt}"><figcaption>{alt}</figcaption></figure>'
-        return f'<figure><img src="{SITE}/img/blog/{f}" width="900" height="609" loading="lazy" alt="{alt}"><figcaption>{alt}</figcaption></figure>'
+        return f'<figure><img src="{SITE}/img/blog/{f}" width="900" height="507" loading="lazy" alt="{alt}"><figcaption>{alt}</figcaption></figure>'
     return re.sub(r"\[\[([^|\]]+)\|([^\]]+)\]\]", fig, html)
 
 def blog_index(lang):
     bt = BLOG_T[lang]
     alts = [("en", url_blog("en")), ("uk", url_blog("uk")), ("x-default", url_blog("en"))]
     cards = "".join(
-        f'<div class="card pc"><a href="{url_post(lang, p["slug"])}"><img src="{SITE}/img/blog/{p["image"]}.jpg" width="900" height="609" loading="lazy" alt="{p[lang]["title"]}"></a>'
+        f'<div class="card pc"><a href="{url_post(lang, p["slug"])}"><img src="{SITE}/img/blog/{p["image"]}.jpg" width="900" height="507" loading="lazy" alt="{p[lang]["title"]}"></a>'
         f'<div class="tx"><h3><a href="{url_post(lang, p["slug"])}">{p[lang]["title"]}</a></h3><p>{p[lang]["desc"]}</p>'
         f'<p class="meta">{reading_min(p[lang]["body"])} {bt["min"]}</p></div></div>' for p in POSTS)
     return head(lang, bt["title"], bt["desc"], url_blog(lang), alts) + \
@@ -234,7 +234,7 @@ def blog_post(lang, p):
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
         f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a></p><h1>{d["title"]}</h1>' \
         f'<p class="meta">{bt["pub"]}: {p["date"]} · {reading_min(d["body"])} {bt["min"]}</p>' \
-        f'<figure><img src="{img}" width="900" height="609" alt="{d["title"]}" fetchpriority="high"></figure>' \
+        f'<figure><img src="{img}" width="900" height="507" alt="{d["title"]}" fetchpriority="high"></figure>' \
         f'{render_body(lang, d["body"])}<div class="band">{cta}</div>' \
         f'<h2>{bt["related"]}</h2><ul>{rel}</ul><p class="disc">{DISCLAIMER[lang]}</p></article></main>' \
         f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'

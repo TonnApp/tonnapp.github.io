@@ -9,7 +9,7 @@ DISCLAIMER = {
 
 POSTS = [
 {
- "slug": "yoga-for-beginners-at-home", "date": "2026-11-15", "image": "warrior2", "app": "tonnyog",
+ "slug": "yoga-for-beginners-at-home", "date": "2026-11-15", "image": "butterfly", "app": "tonnyog",
  "en": {
   "title": "Yoga for Beginners at Home: A Simple 30-Day Plan",
   "desc": "Start yoga at home with a simple 30-day plan for beginners: how often to practise, which poses to learn first and how to avoid common mistakes.",
@@ -24,18 +24,20 @@ POSTS = [
 </ul>
 <h2>Six poses to learn first</h2>
 <p><strong>1. Downward-Facing Dog.</strong> Stretches the back of the legs and shoulders. Keep the knees slightly bent if the hamstrings are tight and push the floor away with your hands.</p>
-[[dog.jpg|Downward-Facing Dog from the TonnYog pose guide]]
+[[dog.jpg|Downward-Facing Dog]]
 <p><strong>2. Cat-Cow.</strong> A gentle spine warm-up on hands and knees: round the back as you exhale, lift the chest as you inhale.</p>
 [[catcow.jpg|Cat-Cow pose]]
 <p><strong>3. Sphinx.</strong> A soft backbend that opens the chest and strengthens the lower back without strain.</p>
-<p><strong>4. Warrior II.</strong> Builds strength in the legs and stamina. Bend the front knee over the ankle and keep the shoulders relaxed.</p>
-<p><strong>5. Tree Pose.</strong> Trains balance. Rest the foot on the calf or inner thigh, never on the knee, and keep your eyes on one point.</p>
-[[tree.jpg|Tree Pose for balance]]
+[[sphinx.jpg|Sphinx Pose]]
+<p><strong>4. Low Lunge.</strong> Opens the hips and strengthens the legs. Keep the front knee over the ankle and the shoulders relaxed; lower the back knee to the floor if you need more support.</p>
+[[lunge.jpg|Low Lunge]]
+<p><strong>5. Child’s Pose.</strong> A resting pose to return to any time you need a break. Sit back onto your heels, stretch the arms forward and let the forehead rest on the floor.</p>
+[[child.jpg|Child’s Pose, a resting pose]]
 <p><strong>6. Butterfly.</strong> A seated pose for the hips. Sit tall and let the knees drop naturally; do not push them down.</p>
 <h2>The 30-day plan</h2>
 <ul>
 <li><strong>Days 1–7: foundations.</strong> 10–15 minutes. Learn the six poses above, hold each for 3–5 breaths and finish with a short rest lying on your back.</li>
-<li><strong>Days 8–14: add the standing poses.</strong> 15 minutes. Repeat the sequence on both sides and add a minute of calm breathing at the end.</li>
+<li><strong>Days 8–14: add lunges and forward folds.</strong> 15 minutes. Repeat the sequence on both sides and add a minute of calm breathing at the end.</li>
 <li><strong>Days 15–21: strength and balance.</strong> 15–20 minutes. Hold poses a little longer (5–8 breaths).</li>
 <li><strong>Days 22–30: flow.</strong> 20 minutes. Link the poses into a smooth sequence and finish with five minutes of relaxation.</li>
 </ul>
@@ -66,18 +68,20 @@ POSTS = [
 </ul>
 <h2>Шість поз, з яких варто почати</h2>
 <p><strong>1. Собака мордою донизу.</strong> Розтягує задню поверхню ніг і плечі. Якщо м’язи ніг напружені, трохи зігніть коліна й відштовхуйтеся долонями від підлоги.</p>
-[[dog.jpg|Собака мордою донизу з довідника поз TonnYog]]
+[[dog.jpg|Собака мордою донизу]]
 <p><strong>2. Кішка-Корова.</strong> М’яка розминка хребта на руках і колінах: округлюйте спину на видиху, піднімайте груди на вдиху.</p>
 [[catcow.jpg|Поза Кішки-Корови]]
 <p><strong>3. Сфінкс.</strong> Легкий прогин, що розкриває груди й зміцнює поперек без перенапруги.</p>
-<p><strong>4. Воїн II.</strong> Розвиває силу ніг і витривалість. Зігніть переднє коліно над щиколоткою, плечі тримайте розслабленими.</p>
-<p><strong>5. Дерево.</strong> Тренує рівновагу. Притисніть стопу до гомілки чи внутрішньої частини стегна, але не до коліна, і дивіться в одну точку.</p>
-[[tree.jpg|Поза Дерева для рівноваги]]
+[[sphinx.jpg|Поза сфінкса]]
+<p><strong>4. Низький випад.</strong> Відкриває стегна й зміцнює ноги. Тримайте переднє коліно над щиколоткою, плечі розслабленими; за потреби опустіть заднє коліно на підлогу.</p>
+[[lunge.jpg|Низький випад]]
+<p><strong>5. Поза дитини.</strong> Поза відпочинку, до якої можна повертатися будь-коли. Сядьте на п’яти, витягніть руки вперед і покладіть лоб на підлогу.</p>
+[[child.jpg|Поза дитини, поза відпочинку]]
 <p><strong>6. Метелик.</strong> Сидяча поза для стегон. Сидіть із прямою спиною й дозвольте колінам опускатися самим, не тисніть на них.</p>
 <h2>План на 30 днів</h2>
 <ul>
 <li><strong>Дні 1–7: основи.</strong> 10–15 хвилин. Вивчіть шість поз, утримуйте кожну 3–5 вдихів-видихів і завершуйте коротким відпочинком лежачи на спині.</li>
-<li><strong>Дні 8–14: додаємо стоячі пози.</strong> 15 хвилин. Повторюйте послідовність в обидва боки й додайте хвилину спокійного дихання наприкінці.</li>
+<li><strong>Дні 8–14: додаємо випади й нахили вперед.</strong> 15 хвилин. Повторюйте послідовність в обидва боки й додайте хвилину спокійного дихання наприкінці.</li>
 <li><strong>Дні 15–21: сила й баланс.</strong> 15–20 хвилин. Утримуйте пози трохи довше (5–8 дихальних циклів).</li>
 <li><strong>Дні 22–30: потік.</strong> 20 хвилин. З’єднуйте пози в плавну послідовність і закінчуйте п’ятьма хвилинами розслаблення.</li>
 </ul>
@@ -104,7 +108,7 @@ POSTS = [
 <p>The splits look impressive, but they are not a gift for the lucky few. With a safe routine and patience most healthy people can move closer to them. Be realistic though: it takes weeks or months, and the timeline depends on your starting flexibility, age and consistency.</p>
 <h2>Two kinds of splits</h2>
 <p>The <strong>front splits</strong> (one leg forward, one back) need flexible hamstrings and hip flexors. The <strong>middle (straddle) splits</strong> (legs to the sides) need open inner thighs. Choose one and train it first; the stretches overlap a little.</p>
-[[splits.jpg|The front splits as shown in the TonnYog pose catalogue]]
+[[straddle.jpg|The middle (straddle) splits]]
 <h2>Warm up first</h2>
 <p>Never stretch cold muscles. Spend 5–10 minutes on brisk walking in place, leg swings, gentle squats and lunges until you feel warm. A warm muscle stretches further and with less risk.</p>
 <h2>The best stretches</h2>
@@ -114,6 +118,7 @@ POSTS = [
 <li><strong>Half splits.</strong> Hips back over the back knee, front leg straight, folding gently forward.</li>
 <li><strong>Butterfly.</strong> Opens the inner thighs, useful for the middle splits.</li>
 </ul>
+[[lunge.jpg|Low lunge for the hip flexors]]
 [[pyramid.jpg|Pyramid pose for the hamstrings]]
 <h2>How to practise</h2>
 <ul>
@@ -143,7 +148,7 @@ POSTS = [
 <p>Шпагат виглядає вражаюче, але це не дар обраних. За безпечної методики й терпіння більшість здорових людей можуть до нього наблизитися. Проте будьте реалістами: це займає тижні або місяці, а терміни залежать від вихідної гнучкості, віку й регулярності.</p>
 <h2>Два види шпагату</h2>
 <p><strong>Поздовжній шпагат</strong> (одна нога вперед, друга назад) потребує гнучких м’язів задньої поверхні стегна й згиначів стегна. <strong>Поперечний шпагат</strong> (ноги в сторони) потребує відкритих внутрішніх поверхонь стегон. Оберіть один і тренуйте його першим: вправи частково збігаються.</p>
-[[splits.jpg|Поздовжній шпагат із каталогу поз TonnYog]]
+[[straddle.jpg|Поперечний шпагат]]
 <h2>Спочатку розігрійтеся</h2>
 <p>Ніколи не розтягуйте холодні м’язи. Витратьте 5–10 хвилин на швидку ходьбу на місці, махи ногами, легкі присідання й випади, поки не відчуєте тепло. Розігрітий м’яз розтягується далі й з меншим ризиком.</p>
 <h2>Найкращі вправи</h2>
@@ -153,6 +158,7 @@ POSTS = [
 <li><strong>Півшпагат.</strong> Таз назад над заднім коліном, передня нога пряма, плавний нахил уперед.</li>
 <li><strong>Метелик.</strong> Відкриває внутрішні поверхні стегон, корисний для поперечного шпагату.</li>
 </ul>
+[[lunge.jpg|Низький випад для згиначів стегна]]
 [[pyramid.jpg|Поза піраміди для м’язів задньої поверхні стегна]]
 <h2>Як тренуватися</h2>
 <ul>
@@ -206,7 +212,7 @@ POSTS = [
 <li>Keep the shoulders and jaw relaxed.</li>
 <li>If counting distracts you, use a visual or audio guide.</li>
 </ul>
-[[practice|The TonnYog practice screen with a countdown and a guided breathing circle]]
+[[relax.jpg|Lying down is another comfortable position for breathing practice]]
 <h2>Guided breathing in the apps</h2>
 <p>TonnYog includes a guided breathing circle with an even rhythm (4 seconds in, 4 seconds out) that you can enable during practice. Our TonnCalm app, which is in development, is built entirely around breathing techniques and meditation, with sounds for inhale, hold and exhale and the option to create your own technique.</p>
 """,
@@ -239,14 +245,14 @@ POSTS = [
 <li>Тримайте плечі й щелепу розслабленими.</li>
 <li>Якщо рахунок відволікає, скористайтеся візуальною чи звуковою підказкою.</li>
 </ul>
-[[practice|Екран практики TonnYog із відліком і керованим колом дихання]]
+[[relax.jpg|Положення лежачи теж зручне для дихальної практики]]
 <h2>Кероване дихання в додатках</h2>
 <p>У TonnYog є кероване коло дихання з рівним ритмом (4 секунди вдих, 4 секунди видих), яке можна ввімкнути під час заняття. Наш додаток TonnCalm, що зараз у розробці, повністю присвячений техніками дихання та медитаціям, зі звуками вдиху, затримки й видиху та можливістю створити власну техніку.</p>
 """,
  },
 },
 {
- "slug": "how-long-to-hold-yoga-poses", "date": "2026-11-15", "image": "tree", "app": "tonnyog",
+ "slug": "how-long-to-hold-yoga-poses", "date": "2026-11-15", "image": "dog", "app": "tonnyog",
  "en": {
   "title": "How Long Should You Hold Each Yoga Pose?",
   "desc": "How long to hold yoga poses: simple guidelines for beginners by pose type, signs it is time to come out and how to increase the time safely.",
@@ -262,7 +268,7 @@ POSTS = [
 <li><strong>Final relaxation (Savasana):</strong> 5–10 minutes.</li>
 <li><strong>Flowing sequences:</strong> usually one breath per movement.</li>
 </ul>
-[[tree.jpg|Tree Pose: a balance pose, 15–30 seconds on each side]]
+[[triangle.jpg|Triangle Pose: a standing pose, 30–60 seconds on each side]]
 <h2>Why time matters</h2>
 <p>Short holds build awareness and body control. Longer holds allow muscles to relax and lengthen, and train patience and steady breathing. A good session has a mix: shorter active poses, longer passive stretches, and a final rest.</p>
 <h2>Signs it is time to come out</h2>
@@ -273,7 +279,7 @@ POSTS = [
 <li>Shaking that gets worse and makes you lose control of the pose.</li>
 </ul>
 <p>Mild muscle tension or a gentle trembling in the legs is normal. Sharp pain is not.</p>
-[[warrior2.jpg|Warrior II: 30–60 seconds on each side]]
+[[child.jpg|Child’s Pose: a resting pose you can stay in for a minute or longer]]
 <h2>How to hold longer safely</h2>
 <ul>
 <li>Add only 5 seconds at a time. Progress slowly over weeks, not days.</li>
@@ -301,7 +307,7 @@ POSTS = [
 <li><strong>Завершальне розслаблення (Шавасана):</strong> 5–10 хвилин.</li>
 <li><strong>Динамічні послідовності:</strong> зазвичай один вдих або видих на рух.</li>
 </ul>
-[[tree.jpg|Поза Дерева: баланс, 15–30 секунд на кожну сторону]]
+[[triangle.jpg|Поза трикутника: стояча поза, 30–60 секунд на кожну сторону]]
 <h2>Чому важливий час</h2>
 <p>Короткі утримання розвивають усвідомленість і контроль над тілом. Довші дозволяють м’язам розслабитися й подовжитися та тренують терпіння й рівне дихання. У хорошому занятті поєднуються коротші активні пози, довші пасивні розтяжки й завершальний відпочинок.</p>
 <h2>Ознаки, що час виходити з пози</h2>
@@ -312,7 +318,7 @@ POSTS = [
 <li>Тремтіння, що наростає і змушує втрачати контроль над позою.</li>
 </ul>
 <p>Легке м’язове напруження чи м’яке тремтіння в ногах це нормально. Гострий біль ні.</p>
-[[warrior2.jpg|Воїн II: 30–60 секунд на кожну сторону]]
+[[child.jpg|Поза дитини: поза відпочинку, у якій можна залишатися хвилину й довше]]
 <h2>Як безпечно утримувати довше</h2>
 <ul>
 <li>Додавайте лише по 5 секунд. Прогресуйте повільно, тижнями, а не днями.</li>
