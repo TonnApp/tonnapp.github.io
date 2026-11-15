@@ -58,6 +58,7 @@ def head(lang, title, desc, canon, alts, extra="", image=None):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{SITE}/favicon.png"><link rel="apple-touch-icon" href="{SITE}/img/apple-touch-icon.png">
 <meta name="theme-color" content="#2f6b3a"><meta name="color-scheme" content="light">
+<meta name="google-site-verification" content="q_HQcKnOih3g3LKpe_9UcSt0CxUO9D2H3V_Xl3kqjgw" />
 <style>{CSS}</style>{extra}</head><body><div class="w">"""
 
 
