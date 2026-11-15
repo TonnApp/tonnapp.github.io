@@ -1,8 +1,9 @@
 # Генератор сайту Tonn: python build.py
 # Тексти — у langs.py, адреса — SITE нижче. Перегенеровує всі сторінки й sitemap.xml.
-import json, pathlib
+import json, pathlib, re
 from langs import L, NAMES
 from soon import SOON, BADGE
+from posts import POSTS, DISCLAIMER
 from features import FEAT, APP_FEATS, TAGS, COMMON, ORDER
 import os
 
@@ -41,6 +42,12 @@ details{background:var(--c);border:1px solid var(--line);border-radius:12px;padd
 .app{display:flex;gap:16px;align-items:flex-start}.app .lg{flex:none;line-height:0}.app .lg img,.app .lg .ph{width:72px;height:72px;border-radius:50%;transition:transform .15s}.app .lg img{background:#f6f8f0;padding:3px;box-shadow:0 0 0 1px var(--line)}.app .lg:hover img,.app .lg:hover .ph{transform:scale(1.07)}.app h3 a{color:inherit;text-decoration:none}.app h3 a:hover{text-decoration:underline}.btn.sm{padding:8px 16px;font-size:15px;border-radius:10px}
 .side{display:none;position:fixed;bottom:0;width:auto;pointer-events:none;z-index:0}.side.l{height:540px;left:calc(50% - 480px - 215px)}.side.r{height:590px;left:calc(50% + 480px + 40px)}
 @media(min-width:1500px){.side{display:block}.duo{display:none}.hero.home{grid-template-columns:1fr}.hero.home h1,.hero.home p{max-width:640px;margin-left:auto;margin-right:auto}}
+.hr{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}.hr .bl{font-weight:600;text-decoration:none}
+.post{max-width:720px;margin:0 auto}.post h1{margin-top:10px}.post h2{font-size:24px;margin:34px 0 12px}.post ul{padding-left:22px}.post li{margin:6px 0}
+.post figure{margin:22px 0}.post figure img{width:100%;height:auto;border-radius:14px;display:block}.post figcaption{color:var(--m);font-size:14px;margin-top:6px}
+.post figure.phone img{max-width:240px;margin:0 auto;border:6px solid #1d2a20;border-radius:26px}.post figure.phone figcaption{text-align:center}
+.meta{color:var(--m);font-size:15px}.crumb{font-size:15px;margin-top:6px}.disc{color:var(--m);font-size:14px;border-top:1px solid var(--line);margin-top:34px;padding-top:14px}
+.pc{padding:0;overflow:hidden}.pc img{width:100%;height:auto;display:block}.pc .tx{padding:14px 16px 16px}.pc h3 a{text-decoration:none;color:inherit}.pc h3 a:hover{text-decoration:underline}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
@@ -71,9 +78,9 @@ def accent(slug):
     return f"<style>:root{{--g:{ACCENT[slug]}}}</style>"
 
 
-def switcher(lang, urlfn):
+def switcher(lang, urlfn, langs=None):
     items = []
-    for c in LANGS:
+    for c in (langs or LANGS):
         cur = ' class="cur" aria-current="true"' if c == lang else ""
         items.append(f'<a href="{urlfn(c)}" hreflang="{c}" lang="{c}" title="{NAMES[c]}"{cur}><img src="{SITE}/img/flags/{c}.svg" width="26" height="17" alt="{NAMES[c]}"></a>')
     return '<nav class="langs" aria-label="Language">' + "".join(items) + "</nav>"
@@ -101,7 +108,7 @@ def app_page(lang, slug, name, play):
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in d["faq"])
     shots = "".join(f'<img src="{SITE}/img/shots/{lang}-{i}.jpg" width="203" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
     return h + f"""
-<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{switcher(lang, urlfn)}</header>
+<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{hnav(lang, urlfn)}</header>
 <main><section class="hero"><div><h1>{d['h1']}</h1><p>{d['lead']}</p>
 <p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
 <img src="{SITE}/img/hero.jpg" width="760" height="760" alt="{name} yoga instructor character" fetchpriority="high" class="h"></section>
@@ -129,7 +136,7 @@ def home_page(lang):
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
     cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
-        f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section><div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
+        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section><div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def soon_page(lang, name, texts):
@@ -154,7 +161,7 @@ def soon_page(lang, name, texts):
     pic = f'<img src="{icon}" width="200" height="200" alt="{name}" class="appicon">' if has_icon else f'<div class="appicon ph" role="img" aria-label="{name}">Calm</div>'
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in faq)
     return h + f"""
-<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{switcher(lang, urlfn)}</header>
+<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{hnav(lang, urlfn)}</header>
 <main><section class="hero"><div><h1>{name} — {tag}</h1><p>{lead}</p>
 <p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>{pic}</section>
 <div class="grid">{cards}</div>
@@ -162,6 +169,75 @@ def soon_page(lang, name, texts):
 <h2>{d['faq_h']}</h2>{faqs}</main>
 <footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a><p>© TonnProSport · {fill('foot')}</p></footer>
 </div></body></html>"""
+
+
+BLOG_LANGS = ["en", "uk"]
+BLOG_T = {
+ "en": {"blog": "Blog", "title": "Tonn blog – yoga, stretching and breathing guides", "desc": "Practical guides on yoga for beginners, stretching, breathing and healthy habits from the Tonn apps team.", "h1": "Tonn blog",
+        "lead": "Practical guides on yoga, stretching and breathing.", "min": "min read", "related": "More articles",
+        "tryh": "Practise with the app", "get": "Get it on Google Play", "soon": "is in development", "tryy": "Meanwhile, try the poses in TonnYog", "pub": "Published"},
+ "uk": {"blog": "Блог", "title": "Блог Tonn – йога, розтяжка та дихання: практичні поради", "desc": "Практичні поради про йогу для початківців, розтяжку, дихання та здорові звички від команди додатків Tonn.", "h1": "Блог Tonn",
+        "lead": "Практичні поради про йогу, розтяжку й дихання.", "min": "хв читання", "related": "Інші статті",
+        "tryh": "Практикуйте з додатком", "get": "Завантажити в Google Play", "soon": "у розробці", "tryy": "А поки що спробуйте пози в TonnYog", "pub": "Опубліковано"},
+}
+APP_NAMES = {"tonnyog": "TonnYog", "tonnstretch": "TonnStretch", "tonncalm": "TonnCalm"}
+
+def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
+def url_post(lang, slug): return f"{SITE}/{pre(lang)}blog/{slug}/"
+
+def hnav(lang, urlfn, langs=None):
+    bl = f'<a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>' if lang in BLOG_LANGS else ""
+    return f'<div class="hr">{bl}{switcher(lang, urlfn, langs)}</div>'
+
+def reading_min(html):
+    words = len(re.sub(r"<[^>]+>", " ", html).split())
+    return max(1, round(words / 200))
+
+def render_body(lang, html):
+    def fig(m):
+        f, alt = m.group(1), m.group(2)
+        if f == "practice":
+            return f'<figure class="phone"><img src="{SITE}/img/blog/practice-{lang}.jpg" width="320" height="693" loading="lazy" alt="{alt}"><figcaption>{alt}</figcaption></figure>'
+        return f'<figure><img src="{SITE}/img/blog/{f}" width="900" height="609" loading="lazy" alt="{alt}"><figcaption>{alt}</figcaption></figure>'
+    return re.sub(r"\[\[([^|\]]+)\|([^\]]+)\]\]", fig, html)
+
+def blog_index(lang):
+    bt = BLOG_T[lang]
+    alts = [("en", url_blog("en")), ("uk", url_blog("uk")), ("x-default", url_blog("en"))]
+    cards = "".join(
+        f'<div class="card pc"><a href="{url_post(lang, p["slug"])}"><img src="{SITE}/img/blog/{p["image"]}.jpg" width="900" height="609" loading="lazy" alt="{p[lang]["title"]}"></a>'
+        f'<div class="tx"><h3><a href="{url_post(lang, p["slug"])}">{p[lang]["title"]}</a></h3><p>{p[lang]["desc"]}</p>'
+        f'<p class="meta">{reading_min(p[lang]["body"])} {bt["min"]}</p></div></div>' for p in POSTS)
+    return head(lang, bt["title"], bt["desc"], url_blog(lang), alts) + \
+        f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, url_blog, BLOG_LANGS)}</header>' \
+        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p><div class="grid">{cards}</div></main>' \
+        f'<footer><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
+
+def blog_post(lang, p):
+    bt = BLOG_T[lang]; d = p[lang]
+    urlfn = lambda c: url_post(c, p["slug"])
+    alts = [("en", url_post("en", p["slug"])), ("uk", url_post("uk", p["slug"])), ("x-default", url_post("en", p["slug"]))]
+    img = f"{SITE}/img/blog/{p['image']}.jpg"
+    art = {"@context": "https://schema.org", "@type": "Article", "headline": d["title"], "description": d["desc"], "inLanguage": lang,
+           "datePublished": p["date"], "dateModified": p["date"], "image": img, "mainEntityOfPage": urlfn(lang),
+           "author": {"@type": "Organization", "name": "TonnProSport"},
+           "publisher": {"@type": "Organization", "name": "TonnProSport", "logo": {"@type": "ImageObject", "url": f"{SITE}/img/icon-512.png"}}}
+    ld = f'<script type="application/ld+json">{json.dumps(art, ensure_ascii=False)}</script>'
+    app = p["app"]; name = APP_NAMES[app]
+    if app == "tonnyog":
+        cta = f'<h2>{bt["tryh"]}</h2><p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a></p>'
+    else:
+        cta = (f'<h2>{bt["tryh"]}</h2><p><a href="{url_app(lang, app)}"><strong>{name}</strong></a> — {bt["soon"]}.</p>'
+               f'<p>{bt["tryy"]}:</p><p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a></p>')
+    rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in POSTS if q["slug"] != p["slug"])
+    return head(lang, d["title"], d["desc"], urlfn(lang), alts, ld, img) + \
+        f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
+        f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a></p><h1>{d["title"]}</h1>' \
+        f'<p class="meta">{bt["pub"]}: {p["date"]} · {reading_min(d["body"])} {bt["min"]}</p>' \
+        f'<figure><img src="{img}" width="900" height="609" alt="{d["title"]}" fetchpriority="high"></figure>' \
+        f'{render_body(lang, d["body"])}<div class="band">{cta}</div>' \
+        f'<h2>{bt["related"]}</h2><ul>{rel}</ul><p class="disc">{DISCLAIMER[lang]}</p></article></main>' \
+        f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def write(rel, text):
@@ -179,14 +255,26 @@ for lang in LANGS:
         write(f"{pre(lang)}{name.lower()}/index.html", soon_page(lang, name, texts))
 
 
+for lang in BLOG_LANGS:
+    write(f"{pre(lang)}blog/index.html", blog_index(lang))
+    for p in POSTS:
+        write(f"{pre(lang)}blog/{p['slug']}/index.html", blog_post(lang, p))
+
+
+def sm_blog(fn):
+    x = "".join(f'<xhtml:link rel="alternate" hreflang="{c}" href="{fn(c)}"/>' for c in BLOG_LANGS) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{fn("en")}"/>'
+    return "".join(f"<url><loc>{fn(c)}</loc>{x}</url>\n" for c in BLOG_LANGS)
+
+
 def sm_entry(urlfn):
     alts = "".join(f'<xhtml:link rel="alternate" hreflang="{c}" href="{u}"/>' for c, u in alts_for(urlfn))
     return "".join(f"<url><loc>{urlfn(c)}</loc>{alts}</url>\n" for c in LANGS)
 
 slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
 body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s in slugs)
+body += sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
 write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 write(".nojekyll", "")
-print("OK", len(LANGS) * (1 + len(slugs)), "pages")
+print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (1 + len(POSTS)), "pages")
