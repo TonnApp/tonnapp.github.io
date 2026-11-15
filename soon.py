@@ -5,6 +5,16 @@ BADGE = {"en": "In development", "uk": "У розробці", "es": "En desarrol
          "tr": "Geliştiriliyor", "it": "In sviluppo"}
 
 SOON = [
+ ("TonnProSport", {
+  "en": "All-in-one offline app: yoga, gym, stretching, outdoor and daily workouts, breathing and meditation.",
+  "uk": "Усе в одному офлайн-додатку: йога, зал, розтяжка, тренування просто неба й щоденні вправи, дихання та медитації.",
+  "es": "Todo en una app sin conexión: yoga, gimnasio, estiramientos, entrenamiento al aire libre y diario, respiración y meditación.",
+  "de": "Alles in einer Offline-App: Yoga, Fitnessstudio, Dehnen, Outdoor- und Tagestraining, Atmung und Meditation.",
+  "fr": "Tout en une appli hors ligne : yoga, salle, étirements, entraînement en plein air et quotidien, respiration et méditation.",
+  "pt": "Tudo num só app offline: yoga, ginásio, alongamento, treino ao ar livre e diário, respiração e meditação.",
+  "pl": "Wszystko w jednej aplikacji offline: joga, siłownia, rozciąganie, trening na dworze i codzienny, oddychanie i medytacja.",
+  "tr": "Hepsi bir arada çevrimdışı uygulama: yoga, spor salonu, esneme, açık hava ve günlük antrenman, nefes ve meditasyon.",
+  "it": "Tutto in un'unica app offline: yoga, palestra, stretching, allenamento all'aperto e quotidiano, respirazione e meditazione."}),
  ("TonnPower", {
   "en": "Offline gym workout diary: machines, dumbbells and barbell.",
   "uk": "Офлайн-щоденник тренувань у залі: тренажери, гантелі й штанга.",
