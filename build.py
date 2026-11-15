@@ -40,6 +40,7 @@ details{background:var(--c);border:1px solid var(--line);border-radius:12px;padd
 .shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots img{height:440px;width:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;flex:none}
 .soon{border-style:dashed;opacity:.8}.badge{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--l);color:var(--g);font-size:14px;font-weight:600}
 .btn.off{background:var(--line);color:var(--m);cursor:default}.appicon{width:200px;height:200px;border-radius:50%;justify-self:center}.ph{display:flex;align-items:center;justify-content:center;background:#3a8f8f;color:#fff;font-size:40px;font-weight:700}
+.app{display:flex;gap:16px;align-items:flex-start}.app .lg{flex:none;line-height:0}.app .lg img,.app .lg .ph{width:72px;height:72px;border-radius:50%;transition:transform .15s}.app .lg img{background:#f6f8f0;padding:3px;box-shadow:0 0 0 1px var(--line)}.app .lg:hover img,.app .lg:hover .ph{transform:scale(1.07)}.app h3 a{color:inherit;text-decoration:none}.app h3 a:hover{text-decoration:underline}.btn.sm{padding:8px 16px;font-size:15px;border-radius:10px}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
@@ -109,8 +110,16 @@ def home_page(lang):
     urlfn = url_home
     org = {"@context": "https://schema.org", "@type": "Organization", "name": "TonnProSport", "url": f"{SITE}/", "logo": f"{SITE}/img/icon-512.png"}
     ld = f'<script type="application/ld+json">{json.dumps(org)}</script>'
-    cards = "".join(f'<div class="card"><h3>{n}</h3><p>{d["card"]}</p><p style="margin-top:12px"><a href="{url_app(lang, s)}">{d["more"]}</a> · <a href="{pl}" rel="noopener">Google Play</a></p></div>' for s, n, pl in APPS)
-    cards += "".join(f'<div class="card soon"><h3>{n}</h3><p>{t[lang]}</p><p style="margin-top:12px"><a href="{url_app(lang, n.lower())}">{d["more"]}</a></p><span class="badge">{BADGE[lang]}</span></div>' for n, t in SOON)
+    def logo(slug, name):
+        if (ROOT / "img" / "apps" / f"{slug}.png").exists():
+            im = f'<img src="{SITE}/img/apps/{slug}.png" width="72" height="72" alt="{name}" loading="lazy">'
+        else:
+            im = f'<span class="ph" role="img" aria-label="{name}" style="font-size:18px">Calm</span>'
+        return f'<a class="lg" href="{url_app(lang, slug)}" title="{name}">{im}</a>'
+    def card(slug, name, text, extra, soon):
+        return f'<div class="card app{" soon" if soon else ""}">{logo(slug, name)}<div><h3><a href="{url_app(lang, slug)}">{name}</a></h3><p>{text}</p>{extra}</div></div>'
+    cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
+    cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
         f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><h1>{d["home_h1"]}</h1><p>{d["home_lead"]}</p><div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
 
