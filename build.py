@@ -20,9 +20,8 @@ def url_home(lang): return f"{SITE}/{pre(lang)}"
 def url_app(lang, slug): return f"{SITE}/{pre(lang)}{slug}/"
 
 CSS = """
-:root{--g:#2f6b3a;--l:#E7EFD3;--ink:#1d2a20;--m:#5a6a5e;--bg:#fbfcf7;--c:#fff;--line:#dfe6d2}
-@media(prefers-color-scheme:dark){:root{--g:#8fd19a;--l:#1f2a21;--ink:#eaf1e6;--m:#a3b3a6;--bg:#141a15;--c:#1a231c;--line:#2b382d}}
-*{box-sizing:border-box}body{margin:0;font:17px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+:root{--g:#2f6b3a;--l:color-mix(in srgb,var(--g) 13%,#fff);--ink:#1d2a20;--m:#5a6a5e;--bg:#fbfdf8;--c:#fff;--line:#dfe6d2}
+*{box-sizing:border-box}body{margin:0;font:17px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:linear-gradient(180deg,var(--l) 0,var(--bg) 560px) no-repeat,var(--bg)}
 a{color:var(--g)}.w{max-width:960px;margin:0 auto;padding:0 16px}
 header{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;align-items:center;padding:14px 0}header b{font-size:20px}
 .langs{display:flex;flex-wrap:wrap;gap:6px}.langs a{display:block;line-height:0;padding:3px;border:2px solid transparent;border-radius:6px;opacity:.75}
@@ -30,14 +29,13 @@ header{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;a
 @media(max-width:420px){.langs{gap:2px}.langs a{padding:2px}}
 .hero{display:grid;gap:28px;align-items:center;padding:24px 0 40px}@media(min-width:760px){.hero{grid-template-columns:1.1fr .9fr}}
 h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 14px}h2{font-size:26px;margin:44px 0 16px}
-.hero img{width:100%;height:auto;border-radius:20px}.hero img.h{max-width:420px;justify-self:center}
+.hero img{width:100%;height:auto;border-radius:20px}.hero img.h{max-width:420px;justify-self:center;box-shadow:0 10px 30px rgba(29,42,32,.15)}
 .btn{display:inline-block;background:var(--g);color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;text-decoration:none}
-@media(prefers-color-scheme:dark){.btn{color:#10200f}}
 .grid{display:grid;gap:14px}@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
 .card{background:var(--c);border:1px solid var(--line);border-radius:14px;padding:16px}.card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--m)}
 .band{background:var(--l);border-radius:16px;padding:20px;margin-top:40px}
 details{background:var(--c);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}
-.shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots img{height:440px;width:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;flex:none}
+.shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots{padding:6px 4px 16px}.shots img{height:440px;width:auto;border-radius:26px;border:6px solid #1d2a20;box-shadow:0 8px 20px rgba(29,42,32,.22);background:#1d2a20;scroll-snap-align:start;flex:none}
 .soon{border-style:dashed;opacity:.8}.badge{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--l);color:var(--g);font-size:14px;font-weight:600}
 .btn.off{background:var(--line);color:var(--m);cursor:default}.appicon{width:200px;height:200px;border-radius:50%;justify-self:center}.ph{display:flex;align-items:center;justify-content:center;background:#3a8f8f;color:#fff;font-size:40px;font-weight:700}
 .app{display:flex;gap:16px;align-items:flex-start}.app .lg{flex:none;line-height:0}.app .lg img,.app .lg .ph{width:72px;height:72px;border-radius:50%;transition:transform .15s}.app .lg img{background:#f6f8f0;padding:3px;box-shadow:0 0 0 1px var(--line)}.app .lg:hover img,.app .lg:hover .ph{transform:scale(1.07)}.app h3 a{color:inherit;text-decoration:none}.app h3 a:hover{text-decoration:underline}.btn.sm{padding:8px 16px;font-size:15px;border-radius:10px}
@@ -59,8 +57,15 @@ def head(lang, title, desc, canon, alts, extra="", image=None):
 <meta property="og:image" content="{image}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{SITE}/favicon.png"><link rel="apple-touch-icon" href="{SITE}/img/apple-touch-icon.png">
-<meta name="theme-color" content="#2f6b3a">
+<meta name="theme-color" content="#2f6b3a"><meta name="color-scheme" content="light">
 <style>{CSS}</style>{extra}</head><body><div class="w">"""
+
+
+ACCENT = {"tonnyog": "#2f6b3a", "tonnaim": "#b04a8c", "tonnfit": "#d96a00", "tonnpower": "#566a8e", "tonnstretch": "#7c6fb0",
+          "tonnworkout": "#00833a", "tonnprosport": "#3d3d3d", "tonncalm": "#3a8f8f"}
+
+def accent(slug):
+    return f"<style>:root{{--g:{ACCENT[slug]}}}</style>"
 
 
 def switcher(lang, urlfn):
@@ -88,7 +93,7 @@ def app_page(lang, slug, name, play):
     faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (app, faq))
-    h = head(lang, d["title"], d["desc"], canon, alts_for(urlfn), ld + f'<meta name="keywords" content="{d["kw"]}">')
+    h = head(lang, d["title"], d["desc"], canon, alts_for(urlfn), ld + accent(slug) + f'<meta name="keywords" content="{d["kw"]}">')
     feats = "".join(f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["feats"])
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in d["faq"])
     shots = "".join(f'<img src="{SITE}/img/shots/{lang}-{i}.jpg" width="203" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
@@ -121,7 +126,7 @@ def home_page(lang):
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
     cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
-        f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><h1>{d["home_h1"]}</h1><p>{d["home_lead"]}</p><div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
+        f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><section class="hero"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h"></section><div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def soon_page(lang, name, texts):
@@ -142,7 +147,7 @@ def soon_page(lang, name, texts):
     cards = "".join(f'<div class="card"><h3>{a}</h3><p>{b}</p></div>' for a, b in feats)
     faq = [(fill("q1"), fill("a1")), (fill("q2"), fill("a2")), (fill("q3"), fill("a3"))]
     ld = f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)}</script>'
-    h = head(lang, title, desc, urlfn(lang), alts_for(urlfn), ld, icon if has_icon else None)
+    h = head(lang, title, desc, urlfn(lang), alts_for(urlfn), ld + accent(slug), icon if has_icon else None)
     pic = f'<img src="{icon}" width="200" height="200" alt="{name}" class="appicon">' if has_icon else f'<div class="appicon ph" role="img" aria-label="{name}">Calm</div>'
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in faq)
     return h + f"""
