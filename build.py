@@ -2,6 +2,7 @@
 # Тексти — у langs.py, адреса — SITE нижче. Перегенеровує всі сторінки й sitemap.xml.
 import json, pathlib
 from langs import L, NAMES
+from soon import SOON, BADGE
 
 SITE = "https://tonnapp.github.io"
 PLAY = "https://play.google.com/store/apps/details?id=com.TonnProSport.Tonn_Yog"
@@ -35,6 +36,7 @@ h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 14px}h2{font-size:
 .band{background:var(--l);border-radius:16px;padding:20px;margin-top:40px}
 details{background:var(--c);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}
 .shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots img{height:440px;width:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;flex:none}
+.soon{border-style:dashed;opacity:.8}.badge{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--l);color:var(--g);font-size:14px;font-weight:600}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
@@ -104,6 +106,7 @@ def home_page(lang):
     org = {"@context": "https://schema.org", "@type": "Organization", "name": "TonnProSport", "url": f"{SITE}/", "logo": f"{SITE}/img/icon-512.png"}
     ld = f'<script type="application/ld+json">{json.dumps(org)}</script>'
     cards = "".join(f'<div class="card"><h3>{n}</h3><p>{d["card"]}</p><p style="margin-top:12px"><a href="{url_app(lang, s)}">{d["more"]}</a> · <a href="{pl}" rel="noopener">Google Play</a></p></div>' for s, n, pl in APPS)
+    cards += "".join(f'<div class="card soon"><h3>{n}</h3><p>{t[lang]}</p><span class="badge">{BADGE[lang]}</span></div>' for n, t in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
         f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><h1>{d["home_h1"]}</h1><p>{d["home_lead"]}</p><div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
 
