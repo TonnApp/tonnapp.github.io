@@ -3,6 +3,8 @@
 import json, pathlib
 from langs import L, NAMES
 from soon import SOON, BADGE
+from features import FEAT, APP_FEATS, TAGS, COMMON, ORDER
+import os
 
 SITE = "https://tonnapp.github.io"
 PLAY = "https://play.google.com/store/apps/details?id=com.TonnProSport.Tonn_Yog"
@@ -37,11 +39,13 @@ h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 14px}h2{font-size:
 details{background:var(--c);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}
 .shots{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px}.shots img{height:440px;width:auto;border-radius:14px;border:1px solid var(--line);scroll-snap-align:start;flex:none}
 .soon{border-style:dashed;opacity:.8}.badge{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--l);color:var(--g);font-size:14px;font-weight:600}
+.btn.off{background:var(--line);color:var(--m);cursor:default}.appicon{width:200px;height:200px;border-radius:50%;justify-self:center}.ph{display:flex;align-items:center;justify-content:center;background:#3a8f8f;color:#fff;font-size:40px;font-weight:700}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
 
-def head(lang, title, desc, canon, alts, extra=""):
+def head(lang, title, desc, canon, alts, extra="", image=None):
+    image = image or f"{SITE}/img/hero.jpg"
     hl = "".join(f'<link rel="alternate" hreflang="{k}" href="{v}">' for k, v in alts)
     return f"""<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8">
@@ -51,7 +55,7 @@ def head(lang, title, desc, canon, alts, extra=""):
 <link rel="canonical" href="{canon}">{hl}
 <meta property="og:type" content="website"><meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}"><meta property="og:url" content="{canon}">
-<meta property="og:image" content="{SITE}/img/hero.jpg">
+<meta property="og:image" content="{image}">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="{SITE}/favicon.png"><link rel="apple-touch-icon" href="{SITE}/img/apple-touch-icon.png">
 <meta name="theme-color" content="#2f6b3a">
@@ -106,9 +110,41 @@ def home_page(lang):
     org = {"@context": "https://schema.org", "@type": "Organization", "name": "TonnProSport", "url": f"{SITE}/", "logo": f"{SITE}/img/icon-512.png"}
     ld = f'<script type="application/ld+json">{json.dumps(org)}</script>'
     cards = "".join(f'<div class="card"><h3>{n}</h3><p>{d["card"]}</p><p style="margin-top:12px"><a href="{url_app(lang, s)}">{d["more"]}</a> · <a href="{pl}" rel="noopener">Google Play</a></p></div>' for s, n, pl in APPS)
-    cards += "".join(f'<div class="card soon"><h3>{n}</h3><p>{t[lang]}</p><span class="badge">{BADGE[lang]}</span></div>' for n, t in SOON)
+    cards += "".join(f'<div class="card soon"><h3>{n}</h3><p>{t[lang]}</p><p style="margin-top:12px"><a href="{url_app(lang, n.lower())}">{d["more"]}</a></p><span class="badge">{BADGE[lang]}</span></div>' for n, t in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
         f'<header><b>Tonn</b>{switcher(lang, urlfn)}</header><main><h1>{d["home_h1"]}</h1><p>{d["home_lead"]}</p><div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
+
+
+def soon_page(lang, name, texts):
+    d = L[lang]
+    i = ORDER.index(lang)
+    slug = name.lower()
+    urlfn = lambda c: url_app(c, slug)
+    tag = TAGS[slug][i]
+    lead = texts[lang]
+    fill = lambda k: COMMON[k][i].replace("{n}", name)
+    title = f"{name} – {tag}"
+    desc = f"{lead} {fill('devnote')}"
+    icon = f"{SITE}/img/apps/{slug}.png"
+    has_icon = os.path.exists(ROOT / "img" / "apps" / f"{slug}.png")
+    feats = []
+    for k in APP_FEATS[slug]:
+        feats.append(d["feats"][6] if k == "offline" else d["feats"][7] if k == "langs" else tuple(FEAT[k][i].split("|", 1)))
+    cards = "".join(f'<div class="card"><h3>{a}</h3><p>{b}</p></div>' for a, b in feats)
+    faq = [(fill("q1"), fill("a1")), (fill("q2"), fill("a2")), (fill("q3"), fill("a3"))]
+    ld = f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)}</script>'
+    h = head(lang, title, desc, urlfn(lang), alts_for(urlfn), ld, icon if has_icon else None)
+    pic = f'<img src="{icon}" width="200" height="200" alt="{name}" class="appicon">' if has_icon else f'<div class="appicon ph" role="img" aria-label="{name}">Calm</div>'
+    faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in faq)
+    return h + f"""
+<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{switcher(lang, urlfn)}</header>
+<main><section class="hero"><div><h1>{name} — {tag}</h1><p>{lead}</p>
+<p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>{pic}</section>
+<div class="grid">{cards}</div>
+<div class="band"><h2 style="margin-top:0">{fill('band_h')}</h2><p>{fill('band_t')}</p><p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>
+<h2>{d['faq_h']}</h2>{faqs}</main>
+<footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a><p>© TonnProSport · {fill('foot')}</p></footer>
+</div></body></html>"""
 
 
 def write(rel, text):
@@ -122,15 +158,18 @@ for lang in LANGS:
     write(f"{pre(lang)}index.html", home_page(lang))
     for slug, name, play in APPS:
         write(f"{pre(lang)}{slug}/index.html", app_page(lang, slug, name, play))
+    for name, texts in SOON:
+        write(f"{pre(lang)}{name.lower()}/index.html", soon_page(lang, name, texts))
 
 
 def sm_entry(urlfn):
     alts = "".join(f'<xhtml:link rel="alternate" hreflang="{c}" href="{u}"/>' for c, u in alts_for(urlfn))
     return "".join(f"<url><loc>{urlfn(c)}</loc>{alts}</url>\n" for c in LANGS)
 
-body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s, _, _ in APPS)
-body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s, _, _ in APPS for f in ("privacy-policy.html", "terms-of-use.html"))
+slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
+body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s in slugs)
+body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
 write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 write(".nojekyll", "")
-print("OK", len(LANGS) * (1 + len(APPS)), "pages")
+print("OK", len(LANGS) * (1 + len(slugs)), "pages")
