@@ -137,7 +137,7 @@ def home_page(lang):
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
     cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
-        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section><div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
+        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section>{guides_block(lang)}<div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def soon_page(lang, name, texts):
@@ -376,6 +376,17 @@ def hub_page(lang, key):
         f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p>{cta if H["apps"] != ["tonnyog"] else "<p>" + cta + "</p>"}</div>' \
         f'<p class="disc">{DISCLAIMER[lang]}</p></main>' \
         f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
+
+
+GUIDES_T = {"en": {"h": "Guides and tips", "p": "Practical articles on yoga, stretching, strength, home and outdoor workouts and breathing.", "all": "All articles →"},
+            "uk": {"h": "Гайди й поради", "p": "Практичні статті про йогу, розтяжку, силові, домашні й вуличні тренування та дихання.", "all": "Усі статті →"}}
+
+def guides_block(lang):
+    if lang not in BLOG_LANGS:
+        return ""
+    g = GUIDES_T[lang]
+    return (f'<section class="guides"><h2 style="margin-top:8px">{g["h"]}</h2><p>{g["p"]}</p>{topics_nav(lang)}'
+            f'<p><a href="{url_blog(lang)}"><strong>{g["all"]}</strong></a></p></section>')
 
 
 def reading_min(html):
