@@ -299,15 +299,35 @@ HUBS["outdoor"] = _hub("outdoor", [
   "app_h": "Вуличні тренування з додатком",
   "app_p": "TonnWorkout у розробці. У ньому будуть програми для турніка й брусів, розминки перед бігом, денні цілі кроків і дистанції та графік за 14 днів."})
 
-HUB_ORDER = ["yoga", "stretching", "strength", "home-workouts", "outdoor"]
+HUBS["breathing"] = _hub("breathing", [
+    ["breathing-techniques-for-calm", "guided-breathing-circle-explained", "reduce-stress-in-3-minutes-breathing", "breathing-exercises-before-sleep"],
+    ["meditation-for-beginners-5-minutes"]], ["tonncalm"], "relax",
+ {"nav": "Breathing", "title": "Breathing and Meditation Guides: Techniques for Calm and Sleep | Tonn",
+  "desc": "Practical guides to breathing exercises and meditation: four simple techniques, a guided breathing circle, a 3-minute stress reset, breathing before sleep and meditation for beginners.",
+  "h1": "Breathing and meditation guides",
+  "intro": ["Slow, steady breathing signals to the nervous system that you are safe, which is why breathing exercises are popular for relaxation, before sleep and during stressful moments. These guides give you simple techniques you can try in a few minutes, plus a gentle introduction to meditation.",
+            "Never strain: the breath should feel easy and quiet. If an exercise makes you dizzy or uncomfortable, return to normal breathing. These practices support relaxation and are not medical treatment."],
+  "groups": ["Breathing techniques", "Meditation"],
+  "app_h": "Breathing and meditation with an app",
+  "app_p": "TonnCalm is in development. It is built around breathing techniques and guided meditation, with sounds for inhale, hold and exhale and the option to create your own technique."},
+ {"nav": "Дихання", "title": "Дихання й медитація: техніки для спокою та сну | Tonn",
+  "desc": "Практичні поради з дихальних вправ і медитації: чотири прості техніки, кероване коло дихання, 3-хвилинне зняття стресу, дихання перед сном і медитація для початківців.",
+  "h1": "Дихання й медитація: усі поради",
+  "intro": ["Повільне рівне дихання сигналізує нервовій системі, що ви в безпеці, тому дихальні вправи популярні для розслаблення, перед сном і в напружені моменти. Ці поради дають прості техніки, які можна спробувати за кілька хвилин, і м’яке знайомство з медитацією.",
+            "Ніколи не напружуйтеся: дихання має бути легким і тихим. Якщо вправа викликає запаморочення чи дискомфорт, поверніться до звичайного дихання. Ці практики підтримують розслаблення й не є лікуванням."],
+  "groups": ["Техніки дихання", "Медитація"],
+  "app_h": "Дихання й медитація з додатком",
+  "app_p": "TonnCalm у розробці. Він побудований навколо технік дихання й медитації з підказками, зі звуками вдиху, затримки й видиху та можливістю створити власну техніку."})
+
+HUB_ORDER = ["yoga", "stretching", "strength", "home-workouts", "outdoor", "breathing"]
 HUB_T = {l: HUBS["yoga"]["T"][l] for l in ("en", "uk")}
 HUB_OF = {}
-for _k in HUB_ORDER:
+for _k in ["breathing"] + HUB_ORDER:
     for _g in HUBS[_k]["groups"]:
         for _s in _g:
             HUB_OF.setdefault(_s, _k)
 HUB_MAIN_BY_APP = {"tonnyog": "yoga", "tonnstretch": "stretching", "tonnpower": "strength", "tonnfit": "home-workouts",
-                   "tonnaim": "home-workouts", "tonnworkout": "outdoor"}
+                   "tonnaim": "home-workouts", "tonnworkout": "outdoor", "tonncalm": "breathing"}
 
 def url_hub(lang, key): return f"{SITE}/{pre(lang)}{HUBS[key]['dir']}/"
 def url_yoga(lang): return url_hub(lang, "yoga")
