@@ -48,6 +48,7 @@ details{background:var(--c);border:1px solid var(--line);border-radius:12px;padd
 .post figure.phone img{max-width:240px;margin:0 auto;border:6px solid #1d2a20;border-radius:26px}.post figure.phone figcaption{text-align:center}
 .meta{color:var(--m);font-size:15px}.crumb{font-size:15px;margin-top:6px}.disc{color:var(--m);font-size:14px;border-top:1px solid var(--line);margin-top:34px;padding-top:14px}
 .pc{padding:0;overflow:hidden}.pc img{width:100%;height:auto;display:block}.pc .tx{padding:14px 16px 16px}.pc h3 a{text-decoration:none;color:inherit}.pc h3 a:hover{text-decoration:underline}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}.topics a{border:1px solid var(--line);background:var(--c);border-radius:999px;padding:4px 14px;text-decoration:none;font-size:15px;font-weight:600}.topics a:hover{border-color:var(--g)}
 footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14px}
 """
 
@@ -165,7 +166,7 @@ def soon_page(lang, name, texts):
 <main><section class="hero"><div><h1>{name} — {tag}</h1><p>{lead}</p>
 <p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>{pic}</section>
 <div class="grid">{cards}</div>
-<div class="band"><h2 style="margin-top:0">{fill('band_h')}</h2><p>{fill('band_t')}</p><p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>
+{hub_link(lang, HUB_MAIN_BY_APP.get(slug, ""))}<div class="band"><h2 style="margin-top:0">{fill('band_h')}</h2><p>{fill('band_t')}</p><p><span class="btn off" aria-disabled="true">{BADGE[lang]}</span></p></div>
 <h2>{d['faq_h']}</h2>{faqs}</main>
 <footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a><p>© TonnProSport · {fill('foot')}</p></footer>
 </div></body></html>"""
@@ -190,55 +191,152 @@ def hnav(lang, urlfn, langs=None):
     bl = (f'<a class="bl" href="{url_yoga(lang)}">{HUB_T[lang]["nav"]}</a><a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>') if lang in BLOG_LANGS else ""
     return f'<div class="hr">{bl}{switcher(lang, urlfn, langs)}</div>'
 
-YOGA_GROUPS = [
- ("start", ["yoga-for-beginners-at-home", "morning-yoga-10-minute-routine", "bedtime-yoga-for-better-sleep",
-            "yoga-for-back-pain-office-workers", "yoga-for-men-myths-and-benefits", "how-long-to-hold-yoga-poses"]),
- ("flex", ["improve-flexibility-in-30-days", "how-to-do-the-splits", "middle-splits-step-by-step", "stretching-after-workout"]),
- ("breath", ["breathing-techniques-for-calm", "guided-breathing-circle-explained", "reduce-stress-in-3-minutes-breathing",
-             "breathing-exercises-before-sleep", "meditation-for-beginners-5-minutes"]),
-]
-YOGA_SLUGS = [s for _, g in YOGA_GROUPS for s in g]
-HUB_T = {
- "en": {"nav": "Yoga", "title": "Yoga Guides: Routines, Poses, Stretching and Breathing | Tonn",
-        "desc": "A hub of practical yoga guides: routines for beginners, morning and bedtime yoga, back care, flexibility, splits, breathing and meditation.",
-        "h1": "Yoga guides",
-        "intro": ["Yoga is a practice of movement, breathing and attention. It can be as gentle as a ten-minute evening stretch or as demanding as a long strength-based flow. This page collects our practical guides so you can find the right starting point and follow a clear path.",
-                  "Not sure where to begin? Start with the beginner plan, add a short morning or evening routine, and use the breathing guides to relax. Always move within a comfortable range and stop if something hurts."],
-        "start": "Getting started and daily routines", "flex": "Flexibility, stretching and splits", "breath": "Breathing and meditation",
-        "app_h": "Practise yoga with an app", "app_p": "TonnYog is an offline yoga app for Android with 30-day programs, voice-guided practice, a pose guide with pictures and your own routine builder.",
-        "get": "Get it on Google Play", "more": "About TonnYog", "home": "Home", "min": "min read", "crumb": "← All yoga guides"},
- "uk": {"nav": "Йога", "title": "Йога: поради, пози, розтяжка й дихання | Tonn",
-        "desc": "Збірка практичних порад про йогу: програми для початківців, ранкова й вечірня йога, догляд за спиною, гнучкість, шпагат, дихання та медитація.",
-        "h1": "Йога: усі поради",
-        "intro": ["Йога це практика руху, дихання й уваги. Вона може бути такою ж м’якою, як десятихвилинна вечірня розтяжка, чи такою ж вимогливою, як довга силова послідовність. На цій сторінці зібрані наші практичні поради, щоб ви могли знайти відповідну точку старту й іти зрозумілим шляхом.",
-                  "Не знаєте, з чого почати? Візьміть план для початківців, додайте коротку ранкову чи вечірню практику й користуйтеся порадами з дихання для розслаблення. Рухайтеся в комфортному діапазоні й зупиняйтеся, якщо щось болить."],
-        "start": "Початок і щоденні практики", "flex": "Гнучкість, розтяжка й шпагат", "breath": "Дихання та медитація",
-        "app_h": "Практикуйте йогу з додатком", "app_p": "TonnYog це офлайн-додаток для йоги на Android: програми на 30 днів, заняття з голосовим супроводом, довідник поз із зображеннями й конструктор власних програм.",
-        "get": "Завантажити в Google Play", "more": "Про TonnYog", "home": "Головна", "min": "хв читання", "crumb": "← Усі поради з йоги"},
-}
+def _hub(dir_, groups, apps, image, en, uk):
+    return {"dir": dir_, "groups": groups, "apps": apps, "image": image, "T": {"en": en, "uk": uk}}
 
-def url_yoga(lang): return f"{SITE}/{pre(lang)}yoga/"
+HUBS = {}
+
+HUBS["yoga"] = _hub("yoga", [
+    ["yoga-for-beginners-at-home", "morning-yoga-10-minute-routine", "bedtime-yoga-for-better-sleep",
+     "yoga-for-back-pain-office-workers", "yoga-for-men-myths-and-benefits", "how-long-to-hold-yoga-poses"],
+    ["improve-flexibility-in-30-days", "how-to-do-the-splits", "middle-splits-step-by-step", "stretching-after-workout"],
+    ["breathing-techniques-for-calm", "guided-breathing-circle-explained", "reduce-stress-in-3-minutes-breathing",
+     "breathing-exercises-before-sleep", "meditation-for-beginners-5-minutes"]], ["tonnyog"], "butterfly",
+ {"nav": "Yoga", "title": "Yoga Guides: Routines, Poses, Stretching and Breathing | Tonn",
+  "desc": "A hub of practical yoga guides: routines for beginners, morning and bedtime yoga, back care, flexibility, splits, breathing and meditation.",
+  "h1": "Yoga guides",
+  "intro": ["Yoga is a practice of movement, breathing and attention. It can be as gentle as a ten-minute evening stretch or as demanding as a long strength-based flow. This page collects our practical guides so you can find the right starting point and follow a clear path.",
+            "Not sure where to begin? Start with the beginner plan, add a short morning or evening routine, and use the breathing guides to relax. Always move within a comfortable range and stop if something hurts."],
+  "groups": ["Getting started and daily routines", "Flexibility, stretching and splits", "Breathing and meditation"],
+  "app_h": "Practise yoga with an app",
+  "app_p": "TonnYog is an offline yoga app for Android with 30-day programs, voice-guided practice, a pose guide with pictures and your own routine builder."},
+ {"nav": "Йога", "title": "Йога: поради, пози, розтяжка й дихання | Tonn",
+  "desc": "Збірка практичних порад про йогу: програми для початківців, ранкова й вечірня йога, догляд за спиною, гнучкість, шпагат, дихання та медитація.",
+  "h1": "Йога: усі поради",
+  "intro": ["Йога це практика руху, дихання й уваги. Вона може бути такою ж м’якою, як десятихвилинна вечірня розтяжка, чи такою ж вимогливою, як довга силова послідовність. На цій сторінці зібрані наші практичні поради, щоб ви могли знайти відповідну точку старту й іти зрозумілим шляхом.",
+            "Не знаєте, з чого почати? Візьміть план для початківців, додайте коротку ранкову чи вечірню практику й користуйтеся порадами з дихання для розслаблення. Рухайтеся в комфортному діапазоні й зупиняйтеся, якщо щось болить."],
+  "groups": ["Початок і щоденні практики", "Гнучкість, розтяжка й шпагат", "Дихання та медитація"],
+  "app_h": "Практикуйте йогу з додатком",
+  "app_p": "TonnYog це офлайн-додаток для йоги на Android: програми на 30 днів, заняття з голосовим супроводом, довідник поз із зображеннями й конструктор власних програм."})
+
+HUBS["stretching"] = _hub("stretching", [
+    ["improve-flexibility-in-30-days", "how-to-do-the-splits", "middle-splits-step-by-step"],
+    ["stretching-after-workout", "warm-up-before-running-and-cool-down", "yoga-for-back-pain-office-workers"]], ["tonnstretch"], "splits",
+ {"nav": "Stretching", "title": "Stretching and Flexibility Guides: Splits, Cool-Downs, Routines | Tonn",
+  "desc": "Practical stretching guides: improving flexibility in 30 days, the splits, stretching after workouts, cool-downs and back care.",
+  "h1": "Stretching and flexibility guides",
+  "intro": ["Flexibility improves with regular, patient practice rather than extreme stretches. These guides show how to warm up, which stretches matter most and how often to practise, from a simple 30-day plan to the front and middle splits.",
+            "Stretch to mild tension, never to pain, and breathe slowly. Warm muscles stretch further and with less risk, so do your stretching after a short warm-up or a workout."],
+  "groups": ["Flexibility and splits", "Around your workouts and for your back"],
+  "app_h": "Stretching with an app",
+  "app_p": "TonnStretch is in development. It will offer offline stretching programs by body zone, 30-day courses including one for the splits, a timer and voice guidance."},
+ {"nav": "Розтяжка", "title": "Розтяжка й гнучкість: шпагат, заминка, комплекси | Tonn",
+  "desc": "Практичні поради з розтяжки: як підвищити гнучкість за 30 днів, шпагат, розтяжка після тренування, заминка й догляд за спиною.",
+  "h1": "Розтяжка й гнучкість: усі поради",
+  "intro": ["Гнучкість росте від регулярної терплячої практики, а не від екстремальних розтяжок. Ці поради показують, як розминатися, які вправи важливі найбільше й як часто тренуватися: від простого плану на 30 днів до поздовжнього й поперечного шпагату.",
+            "Розтягуйтеся до легкого напруження, ніколи до болю, і дихайте повільно. Розігріті м’язи розтягуються далі й безпечніше, тому розтягуйтеся після короткої розминки чи тренування."],
+  "groups": ["Гнучкість і шпагат", "Навколо тренувань і для спини"],
+  "app_h": "Розтяжка з додатком",
+  "app_p": "TonnStretch у розробці. У ньому будуть офлайн-програми розтяжки за зонами тіла, курси на 30 днів (зокрема до шпагату), таймер і голосовий супровід."})
+
+HUBS["strength"] = _hub("strength", [
+    ["workout-diary-why-and-how", "progressive-overload-explained", "one-rep-max-1rm-calculate", "how-long-rest-between-sets"]],
+ ["tonnpower"], "p_deadlift",
+ {"nav": "Strength", "title": "Strength Training Guides: Gym Diary, Progression, 1RM, Rest | Tonn",
+  "desc": "Practical guides for gym training: keeping a workout diary, progressive overload, estimating your 1RM and resting between sets.",
+  "h1": "Strength training guides",
+  "intro": ["Steady strength comes from tracking what you do and asking a little more of your muscles over time. These guides cover the basics of gym training: how to keep a diary, how to progress without plateaus, how to estimate your one-rep max and how long to rest.",
+            "Technique always comes before weight. If you are unsure about a lift, ask a qualified coach, and use a spotter or safety bars for heavy sets."],
+  "groups": ["Gym basics and progress"],
+  "app_h": "A gym diary in your pocket",
+  "app_p": "TonnPower is in development. It is an offline gym diary that logs weight and reps for each set, fills in the previous weight, has a rest timer with a voice countdown and shows personal records."},
+ {"nav": "Силові", "title": "Силові тренування: щоденник, прогресія, 1ПМ, відпочинок | Tonn",
+  "desc": "Практичні поради для тренувань у залі: ведення щоденника, прогресивне навантаження, оцінка 1ПМ і відпочинок між підходами.",
+  "h1": "Силові тренування: усі поради",
+  "intro": ["Стабільна сила з’являється, коли ви фіксуєте, що робите, і поступово вимагаєте від м’язів трохи більше. Ці поради охоплюють основи тренувань у залі: як вести щоденник, як прогресувати без застою, як оцінити одноповторний максимум і скільки відпочивати.",
+            "Техніка завжди важливіша за вагу. Якщо сумніваєтеся щодо вправи, запитайте кваліфікованого тренера, а для важких підходів користуйтеся страхувальником чи запобіжними опорами."],
+  "groups": ["Основи залу й прогрес"],
+  "app_h": "Щоденник залу в кишені",
+  "app_p": "TonnPower у розробці. Це офлайн-щоденник залу: він фіксує вагу й повтори кожного підходу, підставляє попередню вагу, має таймер відпочинку з голосовим відліком і показує особисті рекорди."})
+
+HUBS["home-workouts"] = _hub("home-workouts", [
+    ["home-workout-no-equipment-30-days", "how-many-push-ups-and-squats-per-day"],
+    ["plank-technique-and-progression", "build-a-daily-exercise-habit"]], ["tonnfit", "tonnaim"], "m_pushup",
+ {"nav": "Home workouts", "title": "Home Workouts: Bodyweight Plans, Planks, Daily Habits | Tonn",
+  "desc": "Practical guides to training at home without equipment: a 30-day plan, push-ups and squats, the plank and building a daily exercise habit.",
+  "h1": "Home workout guides",
+  "intro": ["You do not need a gym to get fitter. A few bodyweight exercises, done regularly, can build strength and endurance. These guides give you a 30-day plan, daily repetition targets, the plank and a way to turn exercise into a habit.",
+            "Start small, keep good form and increase gradually. Rest days are part of the plan."],
+  "groups": ["Start training at home", "Core and consistency"],
+  "app_h": "Home workouts with an app",
+  "app_p": "TonnFit and TonnAIM are in development. TonnFit covers workouts with your own weight and equipment with 30-day programs and a tracker; TonnAIM is built for daily exercises with a “+5” button, streaks and planks."},
+ {"nav": "Вдома", "title": "Тренування вдома: програми з власною вагою, планка, щоденні звички | Tonn",
+  "desc": "Практичні поради для тренувань удома без інвентаря: план на 30 днів, віджимання й присідання, планка й формування щоденної звички.",
+  "h1": "Тренування вдома: усі поради",
+  "intro": ["Щоб стати у формі, зал не потрібен. Кілька вправ із власною вагою, виконуваних регулярно, розвинуть силу й витривалість. Ці поради дають план на 30 днів, денні цілі за повторами, планку й спосіб перетворити тренування на звичку.",
+            "Починайте з малого, стежте за технікою й збільшуйте навантаження поступово. Вихідні це частина плану."],
+  "groups": ["Починаємо вдома", "Кор і регулярність"],
+  "app_h": "Тренування вдома з додатком",
+  "app_p": "TonnFit і TonnAIM у розробці. TonnFit охоплює тренування з власною вагою та інвентарем із програмами на 30 днів і трекером; TonnAIM створений для щоденних вправ із кнопкою «+5», серіями днів і планками."})
+
+HUBS["outdoor"] = _hub("outdoor", [
+    ["pull-up-bar-and-parallel-bars-for-beginners"],
+    ["how-many-steps-per-day", "interval-running-for-beginners", "warm-up-before-running-and-cool-down"]], ["tonnworkout"], "m_pullup",
+ {"nav": "Outdoor", "title": "Outdoor Workouts: Pull-Up Bar, Steps, Running for Beginners | Tonn",
+  "desc": "Practical guides for outdoor training: pull-up bar and parallel bars, daily steps, interval running and warm-up for runs.",
+  "h1": "Outdoor workout guides",
+  "intro": ["Parks, courtyards and streets are a free gym. These guides help you start on the pull-up bar and parallel bars, choose a daily step goal, build up running with intervals and warm up properly.",
+            "Check equipment before use, wear suitable shoes and increase the load gradually."],
+  "groups": ["Bars and bodyweight", "Walking and running"],
+  "app_h": "Outdoor workouts with an app",
+  "app_p": "TonnWorkout is in development. It will include pull-up bar and parallel bar programs, running warm-ups, daily step and distance goals and a 14-day chart."},
+ {"nav": "Вулиця", "title": "Тренування просто неба: турнік, кроки, біг для початківців | Tonn",
+  "desc": "Практичні поради для тренувань на вулиці: турнік і бруси, денні кроки, інтервальний біг і розминка перед пробіжкою.",
+  "h1": "Тренування просто неба: усі поради",
+  "intro": ["Парки, двори й вулиці це безкоштовний зал. Ці поради допоможуть почати на турніку й брусах, обрати денну ціль кроків, поступово нарощувати біг інтервалами та правильно розминатися.",
+            "Перевіряйте інвентар перед використанням, носіть відповідне взуття й збільшуйте навантаження поступово."],
+  "groups": ["Турнік і власна вага", "Ходьба та біг"],
+  "app_h": "Вуличні тренування з додатком",
+  "app_p": "TonnWorkout у розробці. У ньому будуть програми для турніка й брусів, розминки перед бігом, денні цілі кроків і дистанції та графік за 14 днів."})
+
+HUB_ORDER = ["yoga", "stretching", "strength", "home-workouts", "outdoor"]
+HUB_T = {l: HUBS["yoga"]["T"][l] for l in ("en", "uk")}
+HUB_OF = {}
+for _k in HUB_ORDER:
+    for _g in HUBS[_k]["groups"]:
+        for _s in _g:
+            HUB_OF.setdefault(_s, _k)
+HUB_MAIN_BY_APP = {"tonnyog": "yoga", "tonnstretch": "stretching", "tonnpower": "strength", "tonnfit": "home-workouts",
+                   "tonnaim": "home-workouts", "tonnworkout": "outdoor"}
+
+def url_hub(lang, key): return f"{SITE}/{pre(lang)}{HUBS[key]['dir']}/"
+def url_yoga(lang): return url_hub(lang, "yoga")
+
+def hub_link(lang, key):
+    if lang not in BLOG_LANGS or key not in HUBS:
+        return ""
+    return f'<p><a href="{url_hub(lang, key)}"><strong>{HUBS[key]["T"][lang]["h1"]} →</strong></a></p>'
 
 def yoga_link(lang):
-    if lang not in BLOG_LANGS:
-        return ""
-    return f'<p><a href="{url_yoga(lang)}"><strong>{HUB_T[lang]["h1"]} →</strong></a></p>'
+    return hub_link(lang, "yoga")
 
-def yoga_hub(lang):
-    h = HUB_T[lang]
+def topics_nav(lang):
+    links = "".join(f'<a href="{url_hub(lang, k)}">{HUBS[k]["T"][lang]["nav"]}</a>' for k in HUB_ORDER)
+    return f'<nav class="topics" aria-label="Topics">{links}</nav>'
+
+def hub_page(lang, key):
+    H = HUBS[key]; h = H["T"][lang]; bt = BLOG_T[lang]
     by = {p["slug"]: p for p in POSTS}
-    urlfn = url_yoga
-    alts = [("en", url_yoga("en")), ("uk", url_yoga("uk")), ("x-default", url_yoga("en"))]
-    secs = ""
-    items = []
-    for key, slugs in YOGA_GROUPS:
+    urlfn = lambda c: url_hub(c, key)
+    alts = [("en", urlfn("en")), ("uk", urlfn("uk")), ("x-default", urlfn("en"))]
+    secs = ""; items = []
+    for title, slugs in zip(h["groups"], H["groups"]):
         cards = ""
         for s in slugs:
-            p = by[s]
-            items.append(url_post(lang, s))
+            p = by[s]; items.append(url_post(lang, s))
             cards += (f'<div class="card pc"><a href="{url_post(lang, s)}"><img src="{SITE}/img/blog/{p["image"]}.jpg" width="900" height="507" loading="lazy" alt="{p[lang]["title"]}"></a>'
                       f'<div class="tx"><h3><a href="{url_post(lang, s)}">{p[lang]["title"]}</a></h3><p>{p[lang]["desc"]}</p></div></div>')
-        secs += f'<h2>{h[key]}</h2><div class="grid">{cards}</div>'
+        secs += f'<h2>{title}</h2><div class="grid">{cards}</div>'
     ld = {"@context": "https://schema.org", "@graph": [
         {"@type": "CollectionPage", "name": h["h1"], "description": h["desc"], "inLanguage": lang, "url": urlfn(lang)},
         {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": u} for i, u in enumerate(items)]},
@@ -247,12 +345,17 @@ def yoga_hub(lang):
             {"@type": "ListItem", "position": 2, "name": h["h1"], "item": urlfn(lang)}]}]}
     ldx = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
     intro = "".join(f"<p>{x}</p>" for x in h["intro"])
-    return head(lang, h["title"], h["desc"], urlfn(lang), alts, ldx, f"{SITE}/img/blog/butterfly.jpg") + \
+    if H["apps"] == ["tonnyog"]:
+        cta = f'<a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a> &nbsp; <a href="{url_app(lang, "tonnyog")}">TonnYog</a>'
+    else:
+        names = " · ".join(f'<a href="{url_app(lang, a)}"><strong>{APP_NAMES[a]}</strong></a>' for a in H["apps"])
+        cta = f'<p>{names} — {bt["soon"]}.</p><p>{bt["tryy"]}:</p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a>'
+    return head(lang, h["title"], h["desc"], urlfn(lang), alts, ldx, f"{SITE}/img/blog/{H['image']}.jpg") + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {h["nav"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
-        f'<main><h1>{h["h1"]}</h1>{intro}{secs}' \
-        f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p><p><a class="btn" href="{PLAY}" rel="noopener">{h["get"]}</a> &nbsp; <a href="{url_app(lang, "tonnyog")}">{h["more"]}</a></p></div>' \
+        f'<main>{topics_nav(lang)}<h1>{h["h1"]}</h1>{intro}{secs}' \
+        f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p>{cta if H["apps"] != ["tonnyog"] else "<p>" + cta + "</p>"}</div>' \
         f'<p class="disc">{DISCLAIMER[lang]}</p></main>' \
-        f'<footer><a href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
+        f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def reading_min(html):
@@ -276,7 +379,7 @@ def blog_index(lang):
         f'<p class="meta">{reading_min(p[lang]["body"])} {bt["min"]}</p></div></div>' for p in POSTS)
     return head(lang, bt["title"], bt["desc"], url_blog(lang), alts) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, url_blog, BLOG_LANGS)}</header>' \
-        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p><div class="grid">{cards}</div></main>' \
+        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p>{topics_nav(lang)}<div class="grid">{cards}</div></main>' \
         f'<footer><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
 
 def blog_post(lang, p):
@@ -295,10 +398,10 @@ def blog_post(lang, p):
     else:
         cta = (f'<h2>{bt["tryh"]}</h2><p><a href="{url_app(lang, app)}"><strong>{name}</strong></a> — {bt["soon"]}.</p>'
                f'<p>{bt["tryy"]}:</p><p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a></p>')
-    in_yoga = p["slug"] in YOGA_SLUGS
-    same = [q for q in POSTS if q["slug"] != p["slug"] and ((q["slug"] in YOGA_SLUGS) if in_yoga else (q["app"] == p["app"]))]
+    hk = HUB_OF.get(p["slug"])
+    same = [q for q in POSTS if q["slug"] != p["slug"] and hk and HUB_OF.get(q["slug"]) == hk]
     rest = [q for q in POSTS if q["slug"] != p["slug"] and q not in same]
-    ycrumb = f' · <a href="{url_yoga(lang)}">{HUB_T[lang]["h1"]}</a>' if in_yoga else ""
+    ycrumb = f' · <a href="{url_hub(lang, hk)}">{HUBS[hk]["T"][lang]["h1"]}</a>' if hk else ""
     rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in (same + rest)[:5])
     return head(lang, d["title"], d["desc"], urlfn(lang), alts, ld, img) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
@@ -326,7 +429,8 @@ for lang in LANGS:
 
 
 for lang in BLOG_LANGS:
-    write(f"{pre(lang)}yoga/index.html", yoga_hub(lang))
+    for _k in HUB_ORDER:
+        write(f"{pre(lang)}{HUBS[_k]['dir']}/index.html", hub_page(lang, _k))
     write(f"{pre(lang)}blog/index.html", blog_index(lang))
     for p in POSTS:
         write(f"{pre(lang)}blog/{p['slug']}/index.html", blog_post(lang, p))
@@ -343,9 +447,9 @@ def sm_entry(urlfn):
 
 slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
 body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s in slugs)
-body += sm_blog(url_yoga) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
+body += "".join(sm_blog(lambda c, k=k: url_hub(c, k)) for k in HUB_ORDER) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
 write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 write(".nojekyll", "")
-print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (2 + len(POSTS)), "pages")
+print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (1 + len(HUB_ORDER) + len(POSTS)), "pages")
