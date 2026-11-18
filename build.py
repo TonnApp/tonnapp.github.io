@@ -114,7 +114,7 @@ def app_page(lang, slug, name, play):
 <img src="{SITE}/img/hero.jpg" width="760" height="760" alt="{name} yoga instructor character" fetchpriority="high" class="h"></section>
 <h2>{d['shots_h']}</h2><div class="shots">{shots}</div>
 <h2>{d['feat_h']}</h2><div class="grid">{feats}</div>
-<div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
+{yoga_link(lang)}<div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
 <h2>{d['faq_h']}</h2>{faqs}</main>
 <footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a><a href="{play}" rel="noopener">Google Play</a><p>© TonnProSport · {d['foot']}</p></footer>
 </div></body></html>"""
@@ -187,8 +187,73 @@ def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
 def url_post(lang, slug): return f"{SITE}/{pre(lang)}blog/{slug}/"
 
 def hnav(lang, urlfn, langs=None):
-    bl = f'<a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>' if lang in BLOG_LANGS else ""
+    bl = (f'<a class="bl" href="{url_yoga(lang)}">{HUB_T[lang]["nav"]}</a><a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>') if lang in BLOG_LANGS else ""
     return f'<div class="hr">{bl}{switcher(lang, urlfn, langs)}</div>'
+
+YOGA_GROUPS = [
+ ("start", ["yoga-for-beginners-at-home", "morning-yoga-10-minute-routine", "bedtime-yoga-for-better-sleep",
+            "yoga-for-back-pain-office-workers", "yoga-for-men-myths-and-benefits", "how-long-to-hold-yoga-poses"]),
+ ("flex", ["improve-flexibility-in-30-days", "how-to-do-the-splits", "middle-splits-step-by-step", "stretching-after-workout"]),
+ ("breath", ["breathing-techniques-for-calm", "guided-breathing-circle-explained", "reduce-stress-in-3-minutes-breathing",
+             "breathing-exercises-before-sleep", "meditation-for-beginners-5-minutes"]),
+]
+YOGA_SLUGS = [s for _, g in YOGA_GROUPS for s in g]
+HUB_T = {
+ "en": {"nav": "Yoga", "title": "Yoga Guides: Routines, Poses, Stretching and Breathing | Tonn",
+        "desc": "A hub of practical yoga guides: routines for beginners, morning and bedtime yoga, back care, flexibility, splits, breathing and meditation.",
+        "h1": "Yoga guides",
+        "intro": ["Yoga is a practice of movement, breathing and attention. It can be as gentle as a ten-minute evening stretch or as demanding as a long strength-based flow. This page collects our practical guides so you can find the right starting point and follow a clear path.",
+                  "Not sure where to begin? Start with the beginner plan, add a short morning or evening routine, and use the breathing guides to relax. Always move within a comfortable range and stop if something hurts."],
+        "start": "Getting started and daily routines", "flex": "Flexibility, stretching and splits", "breath": "Breathing and meditation",
+        "app_h": "Practise yoga with an app", "app_p": "TonnYog is an offline yoga app for Android with 30-day programs, voice-guided practice, a pose guide with pictures and your own routine builder.",
+        "get": "Get it on Google Play", "more": "About TonnYog", "home": "Home", "min": "min read", "crumb": "← All yoga guides"},
+ "uk": {"nav": "Йога", "title": "Йога: поради, пози, розтяжка й дихання | Tonn",
+        "desc": "Збірка практичних порад про йогу: програми для початківців, ранкова й вечірня йога, догляд за спиною, гнучкість, шпагат, дихання та медитація.",
+        "h1": "Йога: усі поради",
+        "intro": ["Йога це практика руху, дихання й уваги. Вона може бути такою ж м’якою, як десятихвилинна вечірня розтяжка, чи такою ж вимогливою, як довга силова послідовність. На цій сторінці зібрані наші практичні поради, щоб ви могли знайти відповідну точку старту й іти зрозумілим шляхом.",
+                  "Не знаєте, з чого почати? Візьміть план для початківців, додайте коротку ранкову чи вечірню практику й користуйтеся порадами з дихання для розслаблення. Рухайтеся в комфортному діапазоні й зупиняйтеся, якщо щось болить."],
+        "start": "Початок і щоденні практики", "flex": "Гнучкість, розтяжка й шпагат", "breath": "Дихання та медитація",
+        "app_h": "Практикуйте йогу з додатком", "app_p": "TonnYog це офлайн-додаток для йоги на Android: програми на 30 днів, заняття з голосовим супроводом, довідник поз із зображеннями й конструктор власних програм.",
+        "get": "Завантажити в Google Play", "more": "Про TonnYog", "home": "Головна", "min": "хв читання", "crumb": "← Усі поради з йоги"},
+}
+
+def url_yoga(lang): return f"{SITE}/{pre(lang)}yoga/"
+
+def yoga_link(lang):
+    if lang not in BLOG_LANGS:
+        return ""
+    return f'<p><a href="{url_yoga(lang)}"><strong>{HUB_T[lang]["h1"]} →</strong></a></p>'
+
+def yoga_hub(lang):
+    h = HUB_T[lang]
+    by = {p["slug"]: p for p in POSTS}
+    urlfn = url_yoga
+    alts = [("en", url_yoga("en")), ("uk", url_yoga("uk")), ("x-default", url_yoga("en"))]
+    secs = ""
+    items = []
+    for key, slugs in YOGA_GROUPS:
+        cards = ""
+        for s in slugs:
+            p = by[s]
+            items.append(url_post(lang, s))
+            cards += (f'<div class="card pc"><a href="{url_post(lang, s)}"><img src="{SITE}/img/blog/{p["image"]}.jpg" width="900" height="507" loading="lazy" alt="{p[lang]["title"]}"></a>'
+                      f'<div class="tx"><h3><a href="{url_post(lang, s)}">{p[lang]["title"]}</a></h3><p>{p[lang]["desc"]}</p></div></div>')
+        secs += f'<h2>{h[key]}</h2><div class="grid">{cards}</div>'
+    ld = {"@context": "https://schema.org", "@graph": [
+        {"@type": "CollectionPage", "name": h["h1"], "description": h["desc"], "inLanguage": lang, "url": urlfn(lang)},
+        {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": u} for i, u in enumerate(items)]},
+        {"@type": "BreadcrumbList", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Tonn", "item": url_home(lang)},
+            {"@type": "ListItem", "position": 2, "name": h["h1"], "item": urlfn(lang)}]}]}
+    ldx = f'<script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>'
+    intro = "".join(f"<p>{x}</p>" for x in h["intro"])
+    return head(lang, h["title"], h["desc"], urlfn(lang), alts, ldx, f"{SITE}/img/blog/butterfly.jpg") + \
+        f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {h["nav"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
+        f'<main><h1>{h["h1"]}</h1>{intro}{secs}' \
+        f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p><p><a class="btn" href="{PLAY}" rel="noopener">{h["get"]}</a> &nbsp; <a href="{url_app(lang, "tonnyog")}">{h["more"]}</a></p></div>' \
+        f'<p class="disc">{DISCLAIMER[lang]}</p></main>' \
+        f'<footer><a href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
+
 
 def reading_min(html):
     words = len(re.sub(r"<[^>]+>", " ", html).split())
@@ -230,12 +295,14 @@ def blog_post(lang, p):
     else:
         cta = (f'<h2>{bt["tryh"]}</h2><p><a href="{url_app(lang, app)}"><strong>{name}</strong></a> — {bt["soon"]}.</p>'
                f'<p>{bt["tryy"]}:</p><p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a></p>')
-    same = [q for q in POSTS if q["slug"] != p["slug"] and q["app"] == p["app"]]
-    rest = [q for q in POSTS if q["slug"] != p["slug"] and q["app"] != p["app"]]
+    in_yoga = p["slug"] in YOGA_SLUGS
+    same = [q for q in POSTS if q["slug"] != p["slug"] and ((q["slug"] in YOGA_SLUGS) if in_yoga else (q["app"] == p["app"]))]
+    rest = [q for q in POSTS if q["slug"] != p["slug"] and q not in same]
+    ycrumb = f' · <a href="{url_yoga(lang)}">{HUB_T[lang]["h1"]}</a>' if in_yoga else ""
     rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in (same + rest)[:5])
     return head(lang, d["title"], d["desc"], urlfn(lang), alts, ld, img) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
-        f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a></p><h1>{d["title"]}</h1>' \
+        f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a>{ycrumb}</p><h1>{d["title"]}</h1>' \
         f'<p class="meta">{bt["pub"]}: {p["date"]} · {reading_min(d["body"])} {bt["min"]}</p>' \
         f'<figure><img src="{img}" width="900" height="507" alt="{d["title"]}" fetchpriority="high"></figure>' \
         f'{render_body(lang, d["body"])}<div class="band">{cta}</div>' \
@@ -259,6 +326,7 @@ for lang in LANGS:
 
 
 for lang in BLOG_LANGS:
+    write(f"{pre(lang)}yoga/index.html", yoga_hub(lang))
     write(f"{pre(lang)}blog/index.html", blog_index(lang))
     for p in POSTS:
         write(f"{pre(lang)}blog/{p['slug']}/index.html", blog_post(lang, p))
@@ -275,9 +343,9 @@ def sm_entry(urlfn):
 
 slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
 body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s in slugs)
-body += sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
+body += sm_blog(url_yoga) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
 write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
 write(".nojekyll", "")
-print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (1 + len(POSTS)), "pages")
+print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (2 + len(POSTS)), "pages")
