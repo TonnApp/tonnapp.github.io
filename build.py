@@ -188,7 +188,7 @@ def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
 def url_post(lang, slug): return f"{SITE}/{pre(lang)}blog/{slug}/"
 
 def hnav(lang, urlfn, langs=None):
-    bl = (f'<a class="bl" href="{url_yoga(lang)}">{HUB_T[lang]["nav"]}</a><a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>') if lang in BLOG_LANGS else ""
+    bl = (f'<a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>') if lang in BLOG_LANGS else ""
     return f'<div class="hr">{bl}{switcher(lang, urlfn, langs)}</div>'
 
 def _hub(dir_, groups, apps, image, en, uk):
@@ -372,7 +372,7 @@ def hub_page(lang, key):
         cta = f'<p>{names} — {bt["soon"]}.</p><p>{bt["tryy"]}:</p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a>'
     return head(lang, h["title"], h["desc"], urlfn(lang), alts, ldx, f"{SITE}/img/blog/{H['image']}.jpg") + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {h["nav"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
-        f'<main>{topics_nav(lang)}<h1>{h["h1"]}</h1>{intro}{secs}' \
+        f'<main><h1>{h["h1"]}</h1>{intro}{secs}' \
         f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p>{cta if H["apps"] != ["tonnyog"] else "<p>" + cta + "</p>"}</div>' \
         f'<p class="disc">{DISCLAIMER[lang]}</p></main>' \
         f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
@@ -410,7 +410,7 @@ def blog_index(lang):
         f'<p class="meta">{reading_min(p[lang]["body"])} {bt["min"]}</p></div></div>' for p in POSTS)
     return head(lang, bt["title"], bt["desc"], url_blog(lang), alts) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, url_blog, BLOG_LANGS)}</header>' \
-        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p>{topics_nav(lang)}<div class="grid">{cards}</div></main>' \
+        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p><div class="grid">{cards}</div></main>' \
         f'<footer><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
 
 def blog_post(lang, p):
