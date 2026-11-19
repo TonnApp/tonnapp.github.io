@@ -42,7 +42,7 @@ details{background:var(--c);border:1px solid var(--line);border-radius:12px;padd
 .app{display:flex;gap:16px;align-items:flex-start}.app .lg{flex:none;line-height:0}.app .lg img,.app .lg .ph{width:72px;height:72px;border-radius:50%;transition:transform .15s}.app .lg img{background:#f6f8f0;padding:3px;box-shadow:0 0 0 1px var(--line)}.app .lg:hover img,.app .lg:hover .ph{transform:scale(1.07)}.app h3 a{color:inherit;text-decoration:none}.app h3 a:hover{text-decoration:underline}.btn.sm{padding:8px 16px;font-size:15px;border-radius:10px}
 .side{display:none;position:fixed;bottom:0;width:auto;pointer-events:none;z-index:0}.side.l{height:540px;left:calc(50% - 480px - 215px)}.side.r{height:590px;left:calc(50% + 480px + 40px)}
 @media(min-width:1500px){.side{display:block}.duo{display:none}.hero.home{grid-template-columns:1fr}.hero.home h1,.hero.home p{max-width:640px;margin-left:auto;margin-right:auto}}
-.hr{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center}.hr .bl{font-weight:600;text-decoration:none}
+.hr{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:flex-end}.hr .bl{font-size:15px}.hr .bl{font-weight:600;text-decoration:none}
 .post{max-width:720px;margin:0 auto}.post h1{margin-top:10px}.post h2{font-size:24px;margin:34px 0 12px}.post ul{padding-left:22px}.post li{margin:6px 0}
 .post figure{margin:22px 0}.post figure img{width:100%;height:auto;border-radius:14px;display:block}.post figcaption{color:var(--m);font-size:14px;margin-top:6px}
 .post figure.phone img{max-width:240px;margin:0 auto;border:6px solid #1d2a20;border-radius:26px}.post figure.phone figcaption{text-align:center}
@@ -137,7 +137,7 @@ def home_page(lang):
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
     cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
-        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header>{topics_nav(lang)}<main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section>{guides_block(lang)}<div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
+        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section>{guides_block(lang)}<div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def soon_page(lang, name, texts):
@@ -188,7 +188,7 @@ def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
 def url_post(lang, slug): return f"{SITE}/{pre(lang)}blog/{slug}/"
 
 def hnav(lang, urlfn, langs=None):
-    bl = (f'<a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>') if lang in BLOG_LANGS else ""
+    bl = (f'<a class="bl" href="{url_blog(lang)}">{BLOG_T[lang]["blog"]}</a>' + "".join(f'<a class="bl" href="{url_hub(lang, k)}">{HUBS[k]["T"][lang]["nav"]}</a>' for k in HUB_ORDER)) if lang in BLOG_LANGS else ""
     return f'<div class="hr">{bl}{switcher(lang, urlfn, langs)}</div>'
 
 def _hub(dir_, groups, apps, image, en, uk):
@@ -374,7 +374,7 @@ def hub_page(lang, key):
         cta = f'<p>{names} — {bt["soon"]}.</p><p>{bt["tryy"]}:</p><a class="btn" href="{PLAY}" rel="noopener">{bt["get"]}</a>'
     return head(lang, h["title"], h["desc"], urlfn(lang), alts, ldx, f"{SITE}/img/blog/{H['image']}.jpg") + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {h["nav"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
-        f'{topics_nav(lang)}<main><h1>{h["h1"]}</h1>{intro}{secs}' \
+        f'<main><h1>{h["h1"]}</h1>{intro}{secs}' \
         f'<div class="band"><h2 style="margin-top:0">{h["app_h"]}</h2><p>{h["app_p"]}</p>{cta if H["apps"] != ["tonnyog"] else "<p>" + cta + "</p>"}</div>' \
         f'<p class="disc">{DISCLAIMER[lang]}</p></main>' \
         f'<footer><a href="{url_blog(lang)}">{bt["blog"]}</a><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
@@ -412,7 +412,7 @@ def blog_index(lang):
         f'<p class="meta">{reading_min(p[lang]["body"])} {bt["min"]}</p></div></div>' for p in POSTS)
     return head(lang, bt["title"], bt["desc"], url_blog(lang), alts) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, url_blog, BLOG_LANGS)}</header>' \
-        f'{topics_nav(lang)}<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p><div class="grid">{cards}</div></main>' \
+        f'<main><h1>{bt["h1"]}</h1><p>{bt["lead"]}</p><div class="grid">{cards}</div></main>' \
         f'<footer><a href="{url_home(lang)}">{L[lang]["all"]}</a><p>© TonnProSport</p></footer></div></body></html>'
 
 def blog_post(lang, p):
@@ -438,7 +438,7 @@ def blog_post(lang, p):
     rel = "".join(f'<li><a href="{url_post(lang, q["slug"])}">{q[lang]["title"]}</a></li>' for q in (same + rest)[:5])
     return head(lang, d["title"], d["desc"], urlfn(lang), alts, ld, img) + \
         f'<header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {bt["blog"]}</b>{hnav(lang, urlfn, BLOG_LANGS)}</header>' \
-        f'{topics_nav(lang)}<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a>{ycrumb}</p><h1>{d["title"]}</h1>' \
+        f'<main><article class="post"><p class="crumb"><a href="{url_blog(lang)}">← {bt["blog"]}</a>{ycrumb}</p><h1>{d["title"]}</h1>' \
         f'<p class="meta">{bt["pub"]}: {p["date"]} · {reading_min(d["body"])} {bt["min"]}</p>' \
         f'<figure><img src="{img}" width="900" height="507" alt="{d["title"]}" fetchpriority="high"></figure>' \
         f'{render_body(lang, d["body"])}<div class="band">{cta}</div>' \
