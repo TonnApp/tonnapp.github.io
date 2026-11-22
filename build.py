@@ -28,9 +28,9 @@ header{display:flex;flex-wrap:wrap;gap:10px 16px;justify-content:space-between;a
 .langs{display:flex;flex-wrap:wrap;gap:6px}.langs a{display:block;line-height:0;padding:3px;border:2px solid transparent;border-radius:6px;opacity:.75}
 .langs a:hover{opacity:1}.langs a.cur{border-color:var(--g);opacity:1}.langs img{width:26px;height:17px;border-radius:2px;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
 @media(max-width:420px){.langs{gap:2px}.langs a{padding:2px}}
-.hero.home{text-align:center}.hero{display:grid;gap:28px;align-items:center;padding:24px 0 40px}@media(min-width:760px){.hero{grid-template-columns:1.1fr .9fr}}
+.hero.home{text-align:center;grid-template-columns:1fr}.hero.home h1,.hero.home p{max-width:640px;margin-left:auto;margin-right:auto}.hero{display:grid;gap:28px;align-items:center;padding:24px 0 40px}@media(min-width:760px){.hero{grid-template-columns:1.1fr .9fr}}
 h1{font-size:clamp(28px,5vw,42px);line-height:1.15;margin:0 0 14px}h2{font-size:26px;margin:44px 0 16px}
-.hero img{width:100%;height:auto;border-radius:20px}.hero img.h{max-width:420px;justify-self:center;box-shadow:0 10px 30px rgba(29,42,32,.15)}
+.hero img{width:100%;height:auto;border-radius:20px}.hero img.h{max-width:420px;justify-self:center;box-shadow:0 10px 30px rgba(29,42,32,.15)}.hero img.phone{width:auto;max-width:100%;max-height:520px;border:6px solid #1d2a20;border-radius:30px;background:#1d2a20}
 .btn{display:inline-block;background:var(--g);color:#fff;padding:14px 22px;border-radius:12px;font-weight:700;text-decoration:none}
 .grid{display:grid;gap:14px}@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
 .card{background:var(--c);border:1px solid var(--line);border-radius:14px;padding:16px}.card h3{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--m)}
@@ -40,8 +40,6 @@ details{background:var(--c);border:1px solid var(--line);border-radius:12px;padd
 .soon{border-style:dashed;opacity:.8}.badge{display:inline-block;margin-top:10px;padding:2px 10px;border-radius:999px;background:var(--l);color:var(--g);font-size:14px;font-weight:600}
 .btn.off{background:var(--line);color:var(--m);cursor:default}.appicon{width:200px;height:200px;border-radius:50%;justify-self:center}.ph{display:flex;align-items:center;justify-content:center;background:#3a8f8f;color:#fff;font-size:40px;font-weight:700}
 .app{display:flex;gap:16px;align-items:flex-start}.app .lg{flex:none;line-height:0}.app .lg img,.app .lg .ph{width:72px;height:72px;border-radius:50%;transition:transform .15s}.app .lg img{background:#f6f8f0;padding:3px;box-shadow:0 0 0 1px var(--line)}.app .lg:hover img,.app .lg:hover .ph{transform:scale(1.07)}.app h3 a{color:inherit;text-decoration:none}.app h3 a:hover{text-decoration:underline}.btn.sm{padding:8px 16px;font-size:15px;border-radius:10px}
-.side{display:none;position:fixed;bottom:0;width:auto;pointer-events:none;z-index:0}.side.l{height:540px;left:calc(50% - 480px - 215px)}.side.r{height:590px;left:calc(50% + 480px + 40px)}
-@media(min-width:1500px){.side{display:block}.duo{display:none}.hero.home{grid-template-columns:1fr}.hero.home h1,.hero.home p{max-width:640px;margin-left:auto;margin-right:auto}}
 .hr{display:contents}.hn{order:3;flex:0 0 100%;display:flex;flex-wrap:wrap;gap:6px 20px}.hn:empty{display:none}.hr .bl{font-weight:600;text-decoration:none;font-size:16px}.hr .langs{order:2}header>b{order:1}.hr .bl{font-weight:600;text-decoration:none}
 .post{max-width:720px;margin:0 auto}.post h1{margin-top:10px}.post h2{font-size:24px;margin:34px 0 12px}.post ul{padding-left:22px}.post li{margin:6px 0}
 .post figure{margin:22px 0}.post figure img{width:100%;height:auto;border-radius:14px;display:block}.post figcaption{color:var(--m);font-size:14px;margin-top:6px}
@@ -54,7 +52,7 @@ footer{margin:48px 0 32px;color:var(--m);font-size:15px}footer a{margin-right:14
 
 
 def head(lang, title, desc, canon, alts, extra="", image=None):
-    image = image or f"{SITE}/img/hero.jpg"
+    image = image or f"{SITE}/img/og.jpg"
     hl = "".join(f'<link rel="alternate" hreflang="{k}" href="{v}">' for k, v in alts)
     return f"""<!doctype html>
 <html lang="{lang}"><head><meta charset="utf-8">
@@ -107,12 +105,12 @@ def app_page(lang, slug, name, play):
     h = head(lang, d["title"], d["desc"], canon, alts_for(urlfn), ld + accent(slug) + f'<meta name="keywords" content="{d["kw"]}">')
     feats = "".join(f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["feats"])
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in d["faq"])
-    shots = "".join(f'<img src="{SITE}/img/shots/{lang}-{i}.jpg" width="203" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
+    shots = "".join(f'<img src="{SITE}/img/shots/{lang}-{i}.webp" width="215" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
     return h + f"""
 <header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{hnav(lang, urlfn)}</header>
 <main><section class="hero"><div><h1>{d['h1']}</h1><p>{d['lead']}</p>
 <p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
-<img src="{SITE}/img/hero.jpg" width="760" height="760" alt="{name} yoga instructor character" fetchpriority="high" class="h"></section>
+<img src="{SITE}/img/shots/{lang}-1.webp" width="215" height="440" alt="{d['alts'][0]}" fetchpriority="high" class="h phone"></section>
 <h2>{d['shots_h']}</h2><div class="shots">{shots}</div>
 <h2>{d['feat_h']}</h2><div class="grid">{feats}</div>
 {yoga_link(lang)}<div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
@@ -137,7 +135,7 @@ def home_page(lang):
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
     cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
-        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div><img src="{SITE}/img/hero-duo.jpg" width="900" height="760" alt="Tonn fitness characters" fetchpriority="high" class="h duo"></section>{guides_block(lang)}<div class="grid">{cards}</div></main><img class="side l" src="{SITE}/img/side-woman.webp" alt="" aria-hidden="true"><img class="side r" src="{SITE}/img/side-man.webp" alt="" aria-hidden="true"><footer><p>© TonnProSport</p></footer></div></body></html>'
+        f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div></section>{guides_block(lang)}<div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
 
 
 def soon_page(lang, name, texts):
