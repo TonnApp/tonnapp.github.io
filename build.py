@@ -158,7 +158,9 @@ def soon_page(lang, name, texts):
     cards = "".join(f'<div class="card"><h3>{a}</h3><p>{b}</p></div>' for a, b in feats)
     faq = [(fill("q1"), fill("a1")), (fill("q2"), fill("a2")), (fill("q3"), fill("a3"))]
     ld = f'<script type="application/ld+json">{json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}, ensure_ascii=False)}</script>'
-    h = head(lang, title, desc, urlfn(lang), alts_for(urlfn), ld + accent(slug), icon if has_icon else None)
+    # Сторінки додатків «у розробці» — майже однаковий шаблон у 9 мовах, не індексуємо (посилання з них лишаються робочими).
+    # Коли додаток вийде, перенести його в APPS і ця сторінка стане звичайною.
+    h = head(lang, title, desc, urlfn(lang), alts_for(urlfn), ld + accent(slug) + '<meta name="robots" content="noindex, follow">', icon if has_icon else None)
     pic = f'<img src="{icon}" width="200" height="200" alt="{name}" class="appicon">' if has_icon else f'<div class="appicon ph" role="img" aria-label="{name}">Calm</div>'
     faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in faq)
     return h + f"""
@@ -469,17 +471,42 @@ for lang in BLOG_LANGS:
         write(f"{pre(lang)}blog/{p['slug']}/index.html", blog_post(lang, p))
 
 
+# <lastmod>: дата останньої зміни файлу в git; якщо файл змінений і ще не закомічений — сьогодні.
+# Файли збірка перезаписує щоразу, тому mtime не підходить. Без git (або при помилці) lastmod просто не пишеться.
+import datetime, subprocess
+def _git(*a):
+    return subprocess.run(["git", "-C", str(ROOT), *a], capture_output=True, text=True, encoding="utf-8").stdout
+try:
+    _dirty = {l[3:].strip().strip('"') for l in _git("status", "--porcelain", "-uall").splitlines()}
+except Exception:
+    _dirty = None
+_lm_cache = {}
+def lm(url):
+    if _dirty is None:
+        return ""
+    rel = url[len(SITE) + 1:]
+    rel = rel + "index.html" if rel == "" or rel.endswith("/") else rel
+    if rel not in _lm_cache:
+        if rel in _dirty:
+            day = datetime.date.today().isoformat()
+        else:
+            day = _git("log", "-1", "--format=%cs", "--", rel).strip() or datetime.date.today().isoformat()
+        _lm_cache[rel] = day
+    return f"<lastmod>{_lm_cache[rel]}</lastmod>"
+
+
 def sm_blog(fn):
     x = "".join(f'<xhtml:link rel="alternate" hreflang="{c}" href="{fn(c)}"/>' for c in BLOG_LANGS) + f'<xhtml:link rel="alternate" hreflang="x-default" href="{fn("en")}"/>'
-    return "".join(f"<url><loc>{fn(c)}</loc>{x}</url>\n" for c in BLOG_LANGS)
+    return "".join(f"<url><loc>{fn(c)}</loc>{lm(fn(c))}{x}</url>\n" for c in BLOG_LANGS)
 
 
 def sm_entry(urlfn):
     alts = "".join(f'<xhtml:link rel="alternate" hreflang="{c}" href="{u}"/>' for c, u in alts_for(urlfn))
-    return "".join(f"<url><loc>{urlfn(c)}</loc>{alts}</url>\n" for c in LANGS)
+    return "".join(f"<url><loc>{urlfn(c)}</loc>{lm(urlfn(c))}{alts}</url>\n" for c in LANGS)
 
 slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
-body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s in slugs)
+# У sitemap лише проіндексовувані сторінки: сторінки додатків «у розробці» мають noindex і сюди не входять.
+body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s, _, _ in APPS)
 body += "".join(sm_blog(lambda c, k=k: url_hub(c, k)) for k in HUB_ORDER) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
