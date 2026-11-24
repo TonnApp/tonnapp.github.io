@@ -508,6 +508,10 @@ body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s
 body += "".join(sm_blog(lambda c, k=k: url_hub(c, k)) for k in HUB_ORDER) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
-write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
+# Простий sitemap без hreflang (резервний): лише <loc> і <lastmod>.
+import re as _re
+_plain = "".join(f"<url><loc>{u}</loc>{lm(u)}</url>\n" for u in _re.findall(r"<url><loc>([^<]+)</loc>", body))
+write("sitemap-pages.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + _plain + "</urlset>\n")
+write("robots.txt", f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\nSitemap: {SITE}/sitemap-pages.xml\n")
 write(".nojekyll", "")
 print("OK", len(LANGS) * (1 + len(slugs)) + len(BLOG_LANGS) * (1 + len(HUB_ORDER) + len(POSTS)), "pages")
