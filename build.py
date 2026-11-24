@@ -2,6 +2,7 @@
 # Тексти — у langs.py, адреса — SITE нижче. Перегенеровує всі сторінки й sitemap.xml.
 import json, pathlib, re
 from langs import L, NAMES
+from aim_langs import AIM
 from soon import SOON, BADGE
 from posts import POSTS, DISCLAIMER
 from features import FEAT, APP_FEATS, TAGS, COMMON, ORDER
@@ -12,6 +13,10 @@ PLAY = "https://play.google.com/store/apps/details?id=com.TonnProSport.Tonn_Yog"
 ROOT = pathlib.Path(__file__).parent
 LANGS = list(NAMES)                      # en, uk, es, de, fr, pt, pl, tr, it
 APPS = [("tonnyog", "TonnYog", PLAY)]    # сюди додаються інші додатки серії
+# TonnAIM: повна сторінка зі скриншотами вже є, але в Google Play додатка ще немає — тому кнопка «У розробці», noindex, не в sitemap.
+# Коли додаток вийде: вписати сюди посилання (AIM_PLAY = "https://play.google.com/store/apps/details?id=com.TonnProSport.Tonn_AIM"),
+# запустити build.py — сторінка стане звичайною (кнопка Google Play, індексація, sitemap, картка на головній).
+AIM_PLAY = None
 
 
 def pre(lang):                           # англійська — у корені, решта — у /<мова>/
@@ -90,32 +95,46 @@ def alts_for(urlfn):
     return a + [("x-default", urlfn("en"))]
 
 
-def app_page(lang, slug, name, play):
-    d = L[lang]
+def app_page(lang, slug, name, play, texts=None, shots_prefix="", og=None, icon=None):
+    """Повна сторінка додатка. play=None — додаток ще не в Google Play: кнопка «У розробці», noindex.
+    texts — тексти додатка (для TonnAIM: AIM[lang] поверх L[lang]); shots_prefix — префікс файлів скриншотів."""
+    d = {**L[lang], **(texts or {})}
+    live = bool(play)
     urlfn = lambda c: url_app(c, slug)
     canon = urlfn(lang)
+    # порядок полів збережено як у TonnYog (щоб його сторінки не змінювалися побайтово); без Google Play — без downloadUrl/offers
     app = {"@context": "https://schema.org", "@type": "MobileApplication", "name": name,
            "operatingSystem": "ANDROID", "applicationCategory": "HealthApplication",
-           "description": d["desc"], "url": canon, "downloadUrl": play, "image": f"{SITE}/img/icon-512.png",
-           "inLanguage": lang, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
-           "author": {"@type": "Organization", "name": "TonnProSport"}}
+           "description": d["desc"], "url": canon}
+    if live: app["downloadUrl"] = play
+    app["image"] = icon or f"{SITE}/img/icon-512.png"
+    app["inLanguage"] = lang
+    if live: app["offers"] = {"@type": "Offer", "price": "0", "priceCurrency": "USD"}
+    app["author"] = {"@type": "Organization", "name": "TonnProSport"}
+    qa = list(d["faq"])
+    if "plat" in d:                                   # питання про платформу: відповідь залежить від того, чи додаток вже вийшов
+        qa.append((d["plat"][0], d["plat"][2] if live else d["plat"][1]))
     faq = {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": lang, "mainEntity": [
-        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in d["faq"]]}
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in qa]}
     ld = "".join(f'<script type="application/ld+json">{json.dumps(x, ensure_ascii=False)}</script>' for x in (app, faq))
-    h = head(lang, d["title"], d["desc"], canon, alts_for(urlfn), ld + accent(slug) + f'<meta name="keywords" content="{d["kw"]}">')
+    robots = "" if live else '<meta name="robots" content="noindex, follow">'
+    h = head(lang, d["title"], d["desc"], canon, alts_for(urlfn), ld + accent(slug) + f'<meta name="keywords" content="{d["kw"]}">' + robots, og)
     feats = "".join(f'<div class="card"><h3>{t}</h3><p>{p}</p></div>' for t, p in d["feats"])
-    faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in d["faq"])
-    shots = "".join(f'<img src="{SITE}/img/shots/{lang}-{i}.webp" width="215" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
+    faqs = "".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in qa)
+    shots = "".join(f'<img src="{SITE}/img/shots/{shots_prefix}{lang}-{i}.webp" width="215" height="440" loading="lazy" alt="{a}">' for i, a in enumerate(d["alts"], 1))
+    btn = f'<a class="btn" href="{play}" rel="noopener">{d["cta"]}</a>' if live else f'<span class="btn off" aria-disabled="true">{BADGE[lang]}</span>'
+    more = yoga_link(lang) if slug == "tonnyog" else hub_link(lang, HUB_MAIN_BY_APP.get(slug, ""))
+    gp = f'<a href="{play}" rel="noopener">Google Play</a>' if live else ""
     return h + f"""
 <header><b><a href="{url_home(lang)}" style="text-decoration:none">Tonn</a> / {name}</b>{hnav(lang, urlfn)}</header>
 <main><section class="hero"><div><h1>{d['h1']}</h1><p>{d['lead']}</p>
-<p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
-<img src="{SITE}/img/shots/{lang}-1.webp" width="215" height="440" alt="{d['alts'][0]}" fetchpriority="high" class="h phone"></section>
+<p>{btn}</p></div>
+<img src="{SITE}/img/shots/{shots_prefix}{lang}-1.webp" width="215" height="440" alt="{d['alts'][0]}" fetchpriority="high" class="h phone"></section>
 <h2>{d['shots_h']}</h2><div class="shots">{shots}</div>
 <h2>{d['feat_h']}</h2><div class="grid">{feats}</div>
-{yoga_link(lang)}<div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p><a class="btn" href="{play}" rel="noopener">{d['cta']}</a></p></div>
+{more}<div class="band"><h2 style="margin-top:0">{d['lvl_h']}</h2><p>{d['lvl']}</p><p>{btn}</p></div>
 <h2>{d['faq_h']}</h2>{faqs}</main>
-<footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a><a href="{play}" rel="noopener">Google Play</a><p>© TonnProSport · {d['foot']}</p></footer>
+<footer><a href="{url_home(lang)}">{d['all']}</a><a href="{SITE}/{slug}/privacy-policy.html">{d['priv']}</a><a href="{SITE}/{slug}/terms-of-use.html">{d['terms']}</a>{gp}<p>© TonnProSport · {d['foot']}</p></footer>
 </div></body></html>"""
 
 
@@ -133,7 +152,10 @@ def home_page(lang):
     def card(slug, name, text, extra, soon):
         return f'<div class="card app{" soon" if soon else ""}">{logo(slug, name)}<div><h3><a href="{url_app(lang, slug)}">{name}</a></h3><p>{text}</p>{extra}</div></div>'
     cards = "".join(card(s, n, d["card"], f'<p style="margin-top:10px"><a class="btn sm" href="{pl}" rel="noopener">Google Play</a></p>', False) for s, n, pl in APPS)
-    cards += "".join(card(n.lower(), n, tx[lang], f'<span class="badge">{BADGE[lang]}</span>', True) for n, tx in SOON)
+    for n, tx in SOON:
+        live = n == "TonnAIM" and AIM_PLAY
+        extra = f'<p style="margin-top:10px"><a class="btn sm" href="{AIM_PLAY}" rel="noopener">Google Play</a></p>' if live else f'<span class="badge">{BADGE[lang]}</span>'
+        cards += card(n.lower(), n, tx[lang], extra, not live)
     return head(lang, d["home_title"], d["home_desc"], urlfn(lang), alts_for(urlfn), ld) + \
         f'<header><b>Tonn</b>{hnav(lang, urlfn)}</header><main><section class="hero home"><div><h1>{d["home_h1"]}</h1><p style="font-size:19px">{d["home_lead"]}</p></div></section>{guides_block(lang)}<div class="grid">{cards}</div></main><footer><p>© TonnProSport</p></footer></div></body></html>'
 
@@ -458,7 +480,10 @@ for lang in LANGS:
     for slug, name, play in APPS:
         write(f"{pre(lang)}{slug}/index.html", app_page(lang, slug, name, play))
     for name, texts in SOON:
-        write(f"{pre(lang)}{name.lower()}/index.html", soon_page(lang, name, texts))
+        if name == "TonnAIM":
+            write(f"{pre(lang)}tonnaim/index.html", app_page(lang, "tonnaim", "TonnAIM", AIM_PLAY, AIM[lang], "tonnaim-", f"{SITE}/img/og-tonnaim.jpg", f"{SITE}/img/apps/tonnaim.png"))
+        else:
+            write(f"{pre(lang)}{name.lower()}/index.html", soon_page(lang, name, texts))
 
 
 for lang in BLOG_LANGS:
@@ -505,6 +530,8 @@ def sm_entry(urlfn):
 slugs = [s for s, _, _ in APPS] + [n.lower() for n, _ in SOON]
 # У sitemap лише проіндексовувані сторінки: сторінки додатків «у розробці» мають noindex і сюди не входять.
 body = sm_entry(url_home) + "".join(sm_entry(lambda c, s=s: url_app(c, s)) for s, _, _ in APPS)
+if AIM_PLAY:
+    body += sm_entry(lambda c: url_app(c, "tonnaim"))
 body += "".join(sm_blog(lambda c, k=k: url_hub(c, k)) for k in HUB_ORDER) + sm_blog(url_blog) + "".join(sm_blog(lambda c, q=q: url_post(c, q["slug"])) for q in POSTS)
 body += "".join(f"<url><loc>{SITE}/{s}/{f}</loc></url>\n" for s in slugs for f in ("privacy-policy.html", "terms-of-use.html"))
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + body + "</urlset>\n")
