@@ -178,7 +178,7 @@ MORE = [
  },
 },
 {
- "slug": "improve-flexibility-in-30-days", "date": D, "image": "seatedfold", "app": "tonnstretch",
+ "slug": "improve-flexibility-in-30-days", "date": D, "image": "seatedfold", "app": "tonnyog",
  "en": {
   "title": "How to Improve Flexibility in 30 Days: A Realistic Plan",
   "desc": "A realistic 30-day plan to improve flexibility: how often to stretch, which stretches work best and how to track your progress.",
@@ -208,7 +208,6 @@ MORE = [
 </ul>
 <h2>Track progress</h2>
 <p>On day one note how far you can reach in a seated forward fold, then repeat the test on day 30. Visible progress keeps you motivated.</p>
-<p>Our TonnStretch app, in development, will bring 30-day courses and zone-by-zone programs for exactly this.</p>
 """,
  },
  "uk": {
@@ -240,12 +239,11 @@ MORE = [
 </ul>
 <h2>Відстежуйте прогрес</h2>
 <p>У перший день зафіксуйте, як далеко ви дістаєте в нахилі сидячи, а на 30-й повторіть тест. Помітний прогрес мотивує.</p>
-<p>У нашому додатку TonnStretch, який у розробці, будуть 30-денні курси й програми за зонами тіла саме для цього.</p>
 """,
  },
 },
 {
- "slug": "stretching-after-workout", "date": D, "image": "quadwall", "app": "tonnstretch",
+ "slug": "stretching-after-workout", "date": D, "image": "quadwall", "app": "tonnyog",
  "en": {
   "title": "Stretching After a Workout: What, How Long and Why",
   "desc": "How to stretch after exercise: which muscles to target, how long to hold each stretch and common mistakes to avoid.",
@@ -272,7 +270,6 @@ MORE = [
 <li>Holding the breath.</li>
 <li>Long static stretches before a heavy or explosive workout; do dynamic movements instead.</li>
 </ul>
-<p>The upcoming TonnStretch app will offer ready-made stretch programs by body zone, with a timer and voice cues.</p>
 """,
  },
  "uk": {
@@ -301,7 +298,6 @@ MORE = [
 <li>Затримувати дихання.</li>
 <li>Довгі статичні розтяжки перед важким чи вибуховим тренуванням: замість них робіть динамічні рухи.</li>
 </ul>
-<p>Майбутній додаток TonnStretch запропонує готові програми розтяжки за зонами тіла з таймером і голосовими підказками.</p>
 """,
  },
 },
@@ -365,7 +361,7 @@ MORE = [
  },
 },
 {
- "slug": "middle-splits-step-by-step", "date": D, "image": "straddle", "app": "tonnstretch",
+ "slug": "middle-splits-step-by-step", "date": D, "image": "straddle", "app": "tonnyog",
  "en": {
   "title": "Middle Splits: A Step-by-Step Plan for the Straddle",
   "desc": "How to work towards the middle (straddle) splits safely: warm-up, key stretches, how often to practise and common mistakes.",
@@ -394,7 +390,6 @@ MORE = [
 <li>Rounding the back instead of folding from the hips.</li>
 <li>Rushing: progress of a few centimeters a month is normal.</li>
 </ul>
-<p>The TonnStretch app, in development, includes a section for splits with a timer and voice prompts.</p>
 """,
  },
  "uk": {
@@ -425,12 +420,11 @@ MORE = [
 <li>Округлення спини замість нахилу від стегон.</li>
 <li>Поспіх: прогрес у кілька сантиметрів на місяць це нормально.</li>
 </ul>
-<p>У додатку TonnStretch, що в розробці, буде окремий розділ зі шпагатами, таймером і голосовими підказками.</p>
 """,
  },
 },
 {
- "slug": "meditation-for-beginners-5-minutes", "date": D, "image": "halflotus", "app": "tonncalm",
+ "slug": "meditation-for-beginners-5-minutes", "date": D, "image": "halflotus", "app": "tonnyog",
  "en": {
   "title": "Meditation for Beginners: How to Start in 5 Minutes",
   "desc": "A simple guide to starting meditation: how to sit, what to focus on, how long to practise and what to do when your mind wanders.",
@@ -457,7 +451,6 @@ MORE = [
 <li>Start with five minutes and add one minute a week.</li>
 <li>Use a guide with a gentle bell if silence is hard.</li>
 </ul>
-<p>Our TonnCalm app, in development, is built around guided meditation sessions and breathing techniques.</p>
 """,
  },
  "uk": {
@@ -486,12 +479,11 @@ MORE = [
 <li>Почніть із п’яти хвилин і додавайте по хвилині на тиждень.</li>
 <li>Користуйтеся записом із м’яким дзвіночком, якщо тиша дається важко.</li>
 </ul>
-<p>Наш додаток TonnCalm, що в розробці, побудований навколо медитацій із підказками й технік дихання.</p>
 """,
  },
 },
 {
- "slug": "reduce-stress-in-3-minutes-breathing", "date": D, "image": "fold", "app": "tonncalm",
+ "slug": "reduce-stress-in-3-minutes-breathing", "date": D, "image": "fold", "app": "tonnyog",
  "en": {
   "title": "How to Reduce Stress in 3 Minutes: Breathing at Work",
   "desc": "A 3-minute breathing break you can do at your desk to reduce stress: what to do, how it works and when to repeat it.",
@@ -516,7 +508,6 @@ MORE = [
 <li>Every couple of hours as a habit.</li>
 </ul>
 <p>If breathing exercises make you dizzy or anxious, return to normal breathing. The approach is a calming practice, not medical treatment.</p>
-<p>Our TonnCalm app, in development, will offer short guided breathing sessions for exactly such breaks.</p>
 """,
  },
  "uk": {
@@ -543,12 +534,11 @@ MORE = [
 <li>Кожні кілька годин як звичку.</li>
 </ul>
 <p>Якщо від дихальних вправ паморочиться голова чи з’являється тривога, поверніться до звичайного дихання. Це заспокійлива практика, а не лікування.</p>
-<p>Наш додаток TonnCalm, що в розробці, запропонує короткі дихальні сесії з підказками саме для таких пауз.</p>
 """,
  },
 },
 {
- "slug": "breathing-exercises-before-sleep", "date": D, "image": "relax", "app": "tonncalm",
+ "slug": "breathing-exercises-before-sleep", "date": D, "image": "relax", "app": "tonnyog",
  "en": {
   "title": "Breathing Before Sleep: Techniques That Help You Wind Down",
   "desc": "Simple breathing techniques for the evening: how to slow down, relax the body and prepare for sleep, with a short routine to follow.",
@@ -574,7 +564,6 @@ MORE = [
 [[legsup.jpg|Legs up the wall, a restful pose before sleep]]
 <h2>If sleep does not come</h2>
 <p>Do not fight it. Keep the breath slow and relaxed; rest itself is useful. If sleep problems last for weeks, talk to a doctor.</p>
-<p>The TonnCalm app, in development, focuses on breathing and meditation sessions you can use before bed.</p>
 """,
  },
  "uk": {
@@ -602,7 +591,6 @@ MORE = [
 [[legsup.jpg|Ноги вгору по стіні, поза для відпочинку перед сном]]
 <h2>Якщо сон не приходить</h2>
 <p>Не боріться з цим. Тримайте дихання повільним і розслабленим: сам відпочинок теж корисний. Якщо проблеми зі сном тривають тижнями, зверніться до лікаря.</p>
-<p>Додаток TonnCalm, що в розробці, зосереджений на сесіях дихання й медитації, які можна використати перед сном.</p>
 """,
  },
 },
@@ -630,7 +618,7 @@ MORE = [
 <h2>Who it is for</h2>
 <p>Anyone who wants calmer breathing: beginners, people who find counting distracting, and those who want to relax during or after exercise. If the rhythm feels too fast or too slow, you can shorten or lengthen it.</p>
 <h2>Try it in an app</h2>
-<p>In TonnYog you can turn on a breathing guide during practice: an even rhythm of four seconds in and four seconds out, accompanied by sound. The TonnCalm app, in development, is built entirely around breathing techniques and meditation.</p>
+<p>In TonnYog you can turn on a breathing guide during practice: an even rhythm of four seconds in and four seconds out, accompanied by sound.</p>
 """,
  },
  "uk": {
@@ -655,7 +643,7 @@ MORE = [
 <h2>Для кого це</h2>
 <p>Для всіх, хто хоче дихати спокійніше: початківців, людей, яких рахунок відволікає, і тих, хто хоче розслабитися під час чи після тренування. Якщо ритм здається надто швидким чи повільним, його можна скоротити або подовжити.</p>
 <h2>Спробуйте в додатку</h2>
-<p>У TonnYog під час практики можна ввімкнути контроль дихання: рівний ритм чотири секунди вдих і чотири секунди видих зі звуком. Додаток TonnCalm, що в розробці, повністю присвячений дихальним технікам і медитації.</p>
+<p>У TonnYog під час практики можна ввімкнути контроль дихання: рівний ритм чотири секунди вдих і чотири секунди видих зі звуком.</p>
 """,
  },
 },

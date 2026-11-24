@@ -25,16 +25,6 @@ SOON = [
   "pl": "Dziennik treningów na siłowni offline: maszyny, hantle i sztanga.",
   "tr": "Çevrimdışı spor salonu antrenman günlüğü: aletler, dambıllar ve halter.",
   "it": "Diario di allenamento in palestra offline: macchine, manubri e bilanciere."}),
- ("TonnStretch", {
-  "en": "Offline stretching app: routines, pose guide and progress tracker.",
-  "uk": "Додаток для розтяжки офлайн: програми, довідник вправ і трекер прогресу.",
-  "es": "App de estiramientos sin conexión: rutinas, guía de ejercicios y seguimiento.",
-  "de": "Dehn-App offline: Programme, Übungskatalog und Fortschritts-Tracker.",
-  "fr": "Appli d'étirements hors ligne : programmes, catalogue d'exercices et suivi.",
-  "pt": "App de alongamento offline: rotinas, guia de exercícios e acompanhamento.",
-  "pl": "Aplikacja do rozciągania offline: programy, katalog ćwiczeń i śledzenie postępów.",
-  "tr": "Çevrimdışı esneme uygulaması: programlar, egzersiz rehberi ve ilerleme takibi.",
-  "it": "App di stretching offline: programmi, catalogo di esercizi e monitoraggio."}),
  ("TonnFit", {
   "en": "Offline workouts with your own weight and equipment: programs and tracker.",
   "uk": "Офлайн-тренування з власною вагою та інвентарем: програми й трекер.",
@@ -65,14 +55,4 @@ SOON = [
   "pl": "Aplikacja offline do codziennych ćwiczeń ze śledzeniem postępów.",
   "tr": "İlerleme takipli, günlük egzersizler için çevrimdışı uygulama.",
   "it": "App offline per esercizi quotidiani con monitoraggio dei progressi."}),
- ("TonnCalm", {
-  "en": "Offline breathing techniques and meditation with a guided breathing circle.",
-  "uk": "Офлайн-техніки дихання та медитації з керованим колом дихання.",
-  "es": "Técnicas de respiración y meditación sin conexión con un círculo de respiración guiado.",
-  "de": "Offline-Atemtechniken und Meditation mit geführtem Atemkreis.",
-  "fr": "Techniques de respiration et méditation hors ligne avec un cercle de respiration guidé.",
-  "pt": "Técnicas de respiração e meditação offline com um círculo de respiração guiado.",
-  "pl": "Techniki oddychania i medytacja offline z prowadzonym kołem oddechu.",
-  "tr": "Yönlendirmeli nefes çemberiyle çevrimdışı nefes teknikleri ve meditasyon.",
-  "it": "Tecniche di respirazione e meditazione offline con un cerchio del respiro guidato."}),
 ]

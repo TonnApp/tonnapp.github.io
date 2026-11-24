@@ -743,7 +743,7 @@ MORE = [
 <h2>Trade-offs</h2>
 <p>Offline apps usually do not offer cloud sync or social feeds. If you change phones, check how backup works.</p>
 <h2>The Tonn approach</h2>
-<p>All Tonn apps are built to work offline: TonnYog is available now on Google Play, and TonnProSport, TonnPower, TonnStretch, TonnFit, TonnWorkout, TonnAIM and TonnCalm are in development.</p>
+<p>All Tonn apps are built to work offline: TonnYog is available now on Google Play, and TonnProSport, TonnPower, TonnFit, TonnWorkout and TonnAIM are in development.</p>
 """,
  },
  "uk": {
@@ -770,7 +770,7 @@ MORE = [
 <h2>Компроміси</h2>
 <p>Офлайн-додатки зазвичай не мають хмарної синхронізації чи соціальних стрічок. Якщо ви змінюєте телефон, перевірте, як працює резервна копія.</p>
 <h2>Підхід Tonn</h2>
-<p>Усі додатки Tonn створюються для роботи офлайн: TonnYog уже доступний у Google Play, а TonnProSport, TonnPower, TonnStretch, TonnFit, TonnWorkout, TonnAIM і TonnCalm у розробці.</p>
+<p>Усі додатки Tonn створюються для роботи офлайн: TonnYog уже доступний у Google Play, а TonnProSport, TonnPower, TonnFit, TonnWorkout і TonnAIM у розробці.</p>
 """,
  },
 },

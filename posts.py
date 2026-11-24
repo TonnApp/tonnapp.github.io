@@ -100,7 +100,7 @@ POSTS = [
  },
 },
 {
- "slug": "how-to-do-the-splits", "date": "2026-11-15", "image": "splits", "app": "tonnstretch",
+ "slug": "how-to-do-the-splits", "date": "2026-11-15", "image": "splits", "app": "tonnyog",
  "en": {
   "title": "How to Do the Splits: A Safe Step-by-Step Plan",
   "desc": "A safe plan to work towards the splits: warm-up, the best stretches, how long to hold them, how often to practise and the mistakes to avoid.",
@@ -138,7 +138,7 @@ POSTS = [
 <h2>A weekly template</h2>
 <p>Day 1: lunge and pyramid. Day 2: rest or a walk. Day 3: half splits and butterfly. Day 4: rest. Day 5: all stretches, a little longer. Weekends: gentle mobility. Track the distance between your hips and the floor so you can see progress.</p>
 <h2>Let an app plan it</h2>
-<p>Our TonnStretch app, which is in development, will include a 30-day course aimed at the splits, with zone-based stretching programs, a timer and voice guidance. Meanwhile, you can practise many of the poses above in TonnYog.</p>
+<p>You can practise many of the poses above in TonnYog.</p>
 """,
  },
  "uk": {
@@ -178,12 +178,12 @@ POSTS = [
 <h2>Тижневий шаблон</h2>
 <p>День 1: випад і піраміда. День 2: відпочинок або прогулянка. День 3: півшпагат і метелик. День 4: відпочинок. День 5: усі вправи, трохи довше. Вихідні: м’яка мобільність. Фіксуйте відстань між тазом і підлогою, щоб бачити прогрес.</p>
 <h2>Нехай план складе додаток</h2>
-<p>У нашому додатку TonnStretch, який зараз у розробці, буде 30-денний курс до шпагату, програми розтяжки за зонами тіла, таймер і голосовий супровід. Тим часом багато з наведених вище поз можна практикувати в TonnYog.</p>
+<p>Багато з наведених вище поз можна практикувати в TonnYog.</p>
 """,
  },
 },
 {
- "slug": "breathing-techniques-for-calm", "date": "2026-11-15", "image": "twist", "app": "tonncalm",
+ "slug": "breathing-techniques-for-calm", "date": "2026-11-15", "image": "twist", "app": "tonnyog",
  "en": {
   "title": "Breathing Techniques for Calm: 4 Simple Exercises",
   "desc": "Four easy breathing exercises to calm down in a few minutes: belly breathing, box breathing, longer exhale and 4-7-8, with tips for beginners.",
@@ -214,7 +214,7 @@ POSTS = [
 </ul>
 [[relax.jpg|Lying down is another comfortable position for breathing practice]]
 <h2>Guided breathing in the apps</h2>
-<p>TonnYog includes a guided breathing circle with an even rhythm (4 seconds in, 4 seconds out) that you can enable during practice. Our TonnCalm app, which is in development, is built entirely around breathing techniques and meditation, with sounds for inhale, hold and exhale and the option to create your own technique.</p>
+<p>TonnYog includes a guided breathing circle with an even rhythm (4 seconds in, 4 seconds out) that you can enable during practice.</p>
 """,
  },
  "uk": {
@@ -247,7 +247,7 @@ POSTS = [
 </ul>
 [[relax.jpg|Положення лежачи теж зручне для дихальної практики]]
 <h2>Кероване дихання в додатках</h2>
-<p>У TonnYog є кероване коло дихання з рівним ритмом (4 секунди вдих, 4 секунди видих), яке можна ввімкнути під час заняття. Наш додаток TonnCalm, що зараз у розробці, повністю присвячений техніками дихання та медитаціям, зі звуками вдиху, затримки й видиху та можливістю створити власну техніку.</p>
+<p>У TonnYog є кероване коло дихання з рівним ритмом (4 секунди вдих, 4 секунди видих), яке можна ввімкнути під час заняття.</p>
 """,
  },
 },

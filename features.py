@@ -226,22 +226,18 @@ FEAT = {
 
 APP_FEATS = {
  "tonnpower":    ["setlog", "rest", "records", "courses", "builder", "tracker", "offline", "langs"],
- "tonnstretch":  ["zones", "splits", "modes", "voice", "builder", "tracker", "offline", "langs"],
  "tonnfit":      ["bwe", "courses", "modes", "builder", "voice", "tracker", "offline", "langs"],
  "tonnworkout":  ["outdoor", "steps", "quickout", "modes", "builder", "tracker", "offline", "langs"],
  "tonnaim":      ["daily", "streak", "planks", "calendar", "restdays", "voice", "offline", "langs"],
- "tonncalm":     ["breathtech", "meditations", "offline", "langs"],
  "tonnprosport": ["allinone", "shared", "onebuy", "builder", "tracker", "voice", "offline", "langs"],
 }
 
 # Короткі підзаголовки: «TonnPower — <тег>»
 TAGS = {
  "tonnpower": ["gym workout diary", "щоденник тренувань у залі", "diario de entrenamiento de gimnasio", "Trainingstagebuch fürs Fitnessstudio", "journal d'entraînement en salle", "diário de treino de ginásio", "dziennik treningów na siłowni", "spor salonu antrenman günlüğü", "diario di allenamento in palestra"],
- "tonnstretch": ["stretching app", "додаток для розтяжки", "app de estiramientos", "Dehn-App", "appli d'étirements", "app de alongamento", "aplikacja do rozciągania", "esneme uygulaması", "app di stretching"],
  "tonnfit": ["bodyweight and equipment workouts", "тренування з власною вагою та інвентарем", "entrenamientos con peso corporal y material", "Workouts mit Körpergewicht und Geräten", "entraînements au poids du corps et avec matériel", "treinos com peso corporal e equipamento", "treningi z masą ciała i sprzętem", "vücut ağırlığı ve ekipmanla antrenmanlar", "allenamenti a corpo libero e con attrezzi"],
  "tonnworkout": ["outdoor workout app", "тренування просто неба", "entrenamiento al aire libre", "Outdoor-Training", "entraînement en plein air", "treino ao ar livre", "trening na świeżym powietrzu", "açık hava antrenmanı", "allenamento all'aperto"],
  "tonnaim": ["daily exercises app", "щоденні вправи", "ejercicios diarios", "tägliche Übungen", "exercices quotidiens", "exercícios diários", "codzienne ćwiczenia", "günlük egzersizler", "esercizi quotidiani"],
- "tonncalm": ["breathing and meditation app", "дихання та медитації", "respiración y meditación", "Atmung und Meditation", "respiration et méditation", "respiração e meditação", "oddychanie i medytacja", "nefes ve meditasyon", "respirazione e meditazione"],
  "tonnprosport": ["all-in-one fitness and wellness app", "фітнес і wellness в одному додатку", "fitness y bienestar en una app", "Fitness und Wellness in einer App", "fitness et bien-être en une appli", "fitness e bem-estar num só app", "fitness i wellness w jednej aplikacji", "tek uygulamada fitness ve sağlıklı yaşam", "fitness e benessere in un'unica app"],
 }
 

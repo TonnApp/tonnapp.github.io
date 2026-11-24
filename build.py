@@ -75,8 +75,8 @@ def head(lang, title, desc, canon, alts, extra="", image=None):
 <style>{CSS}</style>{extra}</head><body><div class="w">"""
 
 
-ACCENT = {"tonnyog": "#2f6b3a", "tonnaim": "#b04a8c", "tonnfit": "#d96a00", "tonnpower": "#566a8e", "tonnstretch": "#7c6fb0",
-          "tonnworkout": "#00833a", "tonnprosport": "#3d3d3d", "tonncalm": "#3a8f8f"}
+ACCENT = {"tonnyog": "#2f6b3a", "tonnaim": "#b04a8c", "tonnfit": "#d96a00", "tonnpower": "#566a8e",
+          "tonnworkout": "#00833a", "tonnprosport": "#3d3d3d"}
 
 def accent(slug):
     return f"<style>:root{{--g:{ACCENT[slug]}}}</style>"
@@ -203,7 +203,7 @@ BLOG_T = {
         "lead": "Практичні поради про йогу, розтяжку й дихання.", "min": "хв читання", "related": "Інші статті",
         "tryh": "Практикуйте з додатком", "get": "Завантажити в Google Play", "soon": "у розробці", "tryy": "А поки що спробуйте пози в TonnYog", "pub": "Опубліковано"},
 }
-APP_NAMES = {"tonnyog": "TonnYog", "tonnstretch": "TonnStretch", "tonncalm": "TonnCalm", "tonnpower": "TonnPower", "tonnfit": "TonnFit",
+APP_NAMES = {"tonnyog": "TonnYog", "tonnpower": "TonnPower", "tonnfit": "TonnFit",
              "tonnworkout": "TonnWorkout", "tonnaim": "TonnAIM", "tonnprosport": "TonnProSport"}
 
 def url_blog(lang): return f"{SITE}/{pre(lang)}blog/"
@@ -243,15 +243,15 @@ HUBS["yoga"] = _hub("yoga", [
 
 HUBS["stretching"] = _hub("stretching", [
     ["improve-flexibility-in-30-days", "how-to-do-the-splits", "middle-splits-step-by-step"],
-    ["stretching-after-workout", "warm-up-before-running-and-cool-down", "yoga-for-back-pain-office-workers"]], ["tonnstretch"], "splits",
+    ["stretching-after-workout", "warm-up-before-running-and-cool-down", "yoga-for-back-pain-office-workers"]], ["tonnyog"], "splits",
  {"nav": "Stretching", "title": "Stretching and Flexibility Guides: Splits, Cool-Downs, Routines | Tonn",
   "desc": "Practical stretching guides: improving flexibility in 30 days, the splits, stretching after workouts, cool-downs and back care.",
   "h1": "Stretching and flexibility guides",
   "intro": ["Flexibility improves with regular, patient practice rather than extreme stretches. These guides show how to warm up, which stretches matter most and how often to practise, from a simple 30-day plan to the front and middle splits.",
             "Stretch to mild tension, never to pain, and breathe slowly. Warm muscles stretch further and with less risk, so do your stretching after a short warm-up or a workout."],
   "groups": ["Flexibility and splits", "Around your workouts and for your back"],
-  "app_h": "Stretching with an app",
-  "app_p": "TonnStretch is in development. It will offer offline stretching programs by body zone, 30-day courses including one for the splits, a timer and voice guidance."},
+  "app_h": "Stretch with an app",
+  "app_p": "TonnYog is an offline yoga app for Android with 30-day programs, voice-guided practice, a pose guide with pictures and your own routine builder."},
  {"nav": "Розтяжка", "title": "Розтяжка й гнучкість: шпагат, заминка, комплекси | Tonn",
   "desc": "Практичні поради з розтяжки: як підвищити гнучкість за 30 днів, шпагат, розтяжка після тренування, заминка й догляд за спиною.",
   "h1": "Розтяжка й гнучкість: усі поради",
@@ -259,7 +259,7 @@ HUBS["stretching"] = _hub("stretching", [
             "Розтягуйтеся до легкого напруження, ніколи до болю, і дихайте повільно. Розігріті м’язи розтягуються далі й безпечніше, тому розтягуйтеся після короткої розминки чи тренування."],
   "groups": ["Гнучкість і шпагат", "Навколо тренувань і для спини"],
   "app_h": "Розтяжка з додатком",
-  "app_p": "TonnStretch у розробці. У ньому будуть офлайн-програми розтяжки за зонами тіла, курси на 30 днів (зокрема до шпагату), таймер і голосовий супровід."})
+  "app_p": "TonnYog це офлайн-додаток для йоги на Android: програми на 30 днів, заняття з голосовим супроводом, довідник поз із зображеннями й конструктор власних програм."})
 
 HUBS["strength"] = _hub("strength", [
     ["workout-diary-why-and-how", "progressive-overload-explained", "one-rep-max-1rm-calculate", "how-long-rest-between-sets"]],
@@ -323,7 +323,7 @@ HUBS["outdoor"] = _hub("outdoor", [
 
 HUBS["breathing"] = _hub("breathing", [
     ["breathing-techniques-for-calm", "guided-breathing-circle-explained", "reduce-stress-in-3-minutes-breathing", "breathing-exercises-before-sleep"],
-    ["meditation-for-beginners-5-minutes"]], ["tonncalm"], "relax",
+    ["meditation-for-beginners-5-minutes"]], ["tonnyog"], "relax",
  {"nav": "Breathing", "title": "Breathing and Meditation Guides: Techniques for Calm and Sleep | Tonn",
   "desc": "Practical guides to breathing exercises and meditation: four simple techniques, a guided breathing circle, a 3-minute stress reset, breathing before sleep and meditation for beginners.",
   "h1": "Breathing and meditation guides",
@@ -331,7 +331,7 @@ HUBS["breathing"] = _hub("breathing", [
             "Never strain: the breath should feel easy and quiet. If an exercise makes you dizzy or uncomfortable, return to normal breathing. These practices support relaxation and are not medical treatment."],
   "groups": ["Breathing techniques", "Meditation"],
   "app_h": "Breathing and meditation with an app",
-  "app_p": "TonnCalm is in development. It is built around breathing techniques and guided meditation, with sounds for inhale, hold and exhale and the option to create your own technique."},
+  "app_p": "TonnYog is an offline yoga app for Android with 30-day programs, voice-guided practice, a pose guide with pictures and your own routine builder."},
  {"nav": "Дихання", "title": "Дихання й медитація: техніки для спокою та сну | Tonn",
   "desc": "Практичні поради з дихальних вправ і медитації: чотири прості техніки, кероване коло дихання, 3-хвилинне зняття стресу, дихання перед сном і медитація для початківців.",
   "h1": "Дихання й медитація: усі поради",
@@ -339,7 +339,7 @@ HUBS["breathing"] = _hub("breathing", [
             "Ніколи не напружуйтеся: дихання має бути легким і тихим. Якщо вправа викликає запаморочення чи дискомфорт, поверніться до звичайного дихання. Ці практики підтримують розслаблення й не є лікуванням."],
   "groups": ["Техніки дихання", "Медитація"],
   "app_h": "Дихання й медитація з додатком",
-  "app_p": "TonnCalm у розробці. Він побудований навколо технік дихання й медитації з підказками, зі звуками вдиху, затримки й видиху та можливістю створити власну техніку."})
+  "app_p": "TonnYog це офлайн-додаток для йоги на Android: програми на 30 днів, заняття з голосовим супроводом, довідник поз із зображеннями й конструктор власних програм."})
 
 HUB_ORDER = ["yoga", "stretching", "strength", "home-workouts", "outdoor", "breathing"]
 HUB_T = {l: HUBS["yoga"]["T"][l] for l in ("en", "uk")}
@@ -348,8 +348,8 @@ for _k in ["breathing"] + HUB_ORDER:
     for _g in HUBS[_k]["groups"]:
         for _s in _g:
             HUB_OF.setdefault(_s, _k)
-HUB_MAIN_BY_APP = {"tonnyog": "yoga", "tonnstretch": "stretching", "tonnpower": "strength", "tonnfit": "home-workouts",
-                   "tonnaim": "home-workouts", "tonnworkout": "outdoor", "tonncalm": "breathing"}
+HUB_MAIN_BY_APP = {"tonnyog": "yoga", "tonnpower": "strength", "tonnfit": "home-workouts",
+                   "tonnaim": "home-workouts", "tonnworkout": "outdoor"}
 
 def url_hub(lang, key): return f"{SITE}/{pre(lang)}{HUBS[key]['dir']}/"
 def url_yoga(lang): return url_hub(lang, "yoga")
